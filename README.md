@@ -1,6 +1,6 @@
 <div align="center">
 
-hi hello 
+
   
 # 🎓 EduNexus
 
