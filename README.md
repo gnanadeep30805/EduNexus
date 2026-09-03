@@ -1,373 +1,330 @@
+<div align="center">
+
 # EduNexus
 
-### AI-Powered Academia–Industry Skill Intelligence & Collaboration Platform
+### AI-Powered Academia–Industry Skill Intelligence Platform
 
-> **Bridging Skills. Connecting Opportunities. Building Careers.**
+**Bridging Skills · Connecting Opportunities · Building Careers**
 
-EduNexus is a unified digital platform that connects **students, educational institutions, and industries** through AI-powered skill intelligence, personalized career pathways, internships, placements, and academia–industry collaboration.
+EduNexus is a unified platform designed to connect **students, educational institutions, and industry** through skill intelligence, career guidance, internships, placements, and structured academia–industry collaboration.
 
-The platform addresses the gap between **what students learn in academia and what industries actually require**, while helping institutions understand skill gaps and enabling companies to discover candidates based on **verified skills, evidence, and career readiness**.
+<p>
+  <img src="https://img.shields.io/badge/status-active%20development-7c3aed?style=for-the-badge" alt="Status: Active Development" />
+  <img src="https://img.shields.io/badge/SIH%202026-PS%2026044-111827?style=for-the-badge" alt="SIH 2026 PS 26044" />
+  <img src="https://img.shields.io/badge/Frontend-React%20%2B%20JavaScript-61DAFB?style=for-the-badge&logo=react&logoColor=111827" alt="React JavaScript" />
+  <img src="https://img.shields.io/badge/Backend-Node.js%20%2B%20Express-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js Express" />
+  <img src="https://img.shields.io/badge/Database-PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL" />
+</p>
 
----
+<p>
+  <a href="#-overview">Overview</a> ·
+  <a href="#-core-platform-loop">Platform Loop</a> ·
+  <a href="#-features">Features</a> ·
+  <a href="#-architecture">Architecture</a> ·
+  <a href="#-tech-stack">Tech Stack</a> ·
+  <a href="#-getting-started">Getting Started</a> ·
+  <a href="#-roadmap">Roadmap</a>
+</p>
 
-## 🚀 Why EduNexus?
-
-There is a growing disconnect between:
-
-**Academic Curriculum → Student Skills → Industry Requirements → Employment**
-
-Students often struggle to answer:
-
-* What skills are required for my target career?
-* What skills am I currently missing?
-* Which internships should I apply for?
-* What should I learn next?
-* How can I prove my skills to employers?
-
-Industries face a different challenge:
-
-* How do we find candidates with the right skills?
-* How can we verify whether a candidate actually possesses those skills?
-* How can we communicate emerging skill requirements to institutions?
-* How can we build meaningful relationships with universities?
-
-Academia needs visibility into:
-
-* Industry skill demand
-* Student skill gaps
-* Internship opportunities
-* Placement readiness
-* Curriculum–industry alignment
-* Emerging technologies and competencies
-
-**EduNexus brings all three stakeholders into one intelligent ecosystem.**
+</div>
 
 ---
 
-# 🎯 Core Vision
+## 📌 Overview
 
-EduNexus creates a continuous **Skill Intelligence Loop**:
+The transition from **education to employment** is often fragmented. Students may know what they have studied but not which skills are expected for a target role. Industry needs candidates with relevant and demonstrable capabilities, while institutions need better visibility into changing industry requirements and student skill gaps.
+
+**EduNexus** is designed around this problem.
+
+It brings together:
+
+- 🎓 **Students** — build skill profiles, assess capabilities, discover career paths, and access relevant opportunities.
+- 🏢 **Industry** — define skill requirements, publish opportunities, discover candidates, and collaborate with institutions.
+- 🏫 **Academia** — understand cohort-level skill gaps, monitor internships and placements, and align academic development with industry demand.
+- 🤖 **AI Intelligence** — normalize skills, analyze gaps, improve opportunity matching, and provide explainable recommendations.
+
+> **EduNexus is not intended to be just another job or internship portal.** Its central idea is a continuous **skill intelligence loop** connecting industry demand, student development, verified evidence, internships, outcomes, and institutional decision-making.
+
+---
+
+## 🎯 Problem
+
+The current academia–industry ecosystem can be disconnected:
 
 ```text
-Industry Demand
-       ↓
-Skill Intelligence
-       ↓
-Student Assessment
-       ↓
-Skill Profile
-       ↓
-Skill Gap Analysis
-       ↓
-Personalized Learning
-       ↓
-Verified Skills
-       ↓
-Internships / Projects
-       ↓
-Industry Feedback
-       ↓
-Career Readiness
-       ↓
-Placement
-       ↓
-Institution Intelligence
-       ↺
+Academic Curriculum
+        ↓
+   Student Skills
+        ↓
+     ???
+        ↓
+Industry Requirements
+        ↓
+ Internships / Jobs
+        ↓
+     Placement
 ```
 
-Instead of treating education, internships, and placements as separate processes, EduNexus connects them into one continuous journey.
+EduNexus aims to turn that fragmented journey into an intelligent feedback loop:
+
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                    INDUSTRY DEMAND                           │
+│       Jobs · Internships · Projects · Emerging Skills       │
+└────────────────────────────┬─────────────────────────────────┘
+                             ↓
+┌──────────────────────────────────────────────────────────────┐
+│                 SKILL INTELLIGENCE                           │
+│        Skill Extraction · Normalization · Taxonomy          │
+└────────────────────────────┬─────────────────────────────────┘
+                             ↓
+┌──────────────────────────────────────────────────────────────┐
+│                  STUDENT INTELLIGENCE                        │
+│      Assessments · Projects · Certifications · Evidence     │
+└────────────────────────────┬─────────────────────────────────┘
+                             ↓
+┌──────────────────────────────────────────────────────────────┐
+│                 GAP + CAREER INTELLIGENCE                    │
+│          Skill Gaps · Career Paths · Recommendations        │
+└────────────────────────────┬─────────────────────────────────┘
+                             ↓
+┌──────────────────────────────────────────────────────────────┐
+│              OPPORTUNITY + EXPERIENCE                        │
+│       Internships · Projects · Jobs · Mentorship             │
+└────────────────────────────┬─────────────────────────────────┘
+                             ↓
+┌──────────────────────────────────────────────────────────────┐
+│                INDUSTRY VALIDATION                            │
+│             Feedback · Milestones · Verification             │
+└────────────────────────────┬─────────────────────────────────┘
+                             ↓
+┌──────────────────────────────────────────────────────────────┐
+│                 ACADEMIC INTELLIGENCE                        │
+│       Cohort Gaps · Demand Trends · Curriculum Alignment     │
+└────────────────────────────┴─────────────────────────────────┘
+                             ↺
+```
 
 ---
 
-# ✨ Key Features
+## 💡 What EduNexus Does
 
-## 👨‍🎓 Student Platform
+### For Students
 
-### Skill Passport
+| Capability | Purpose |
+|---|---|
+| **Skill Passport** | Maintain a structured, evidence-backed skill profile |
+| **AI Skill Assessment** | Measure proficiency through assessments and evidence |
+| **Skill Gap Analysis** | Compare current capabilities with target-role requirements |
+| **Career Pathways** | Convert a career goal into an actionable development path |
+| **Learning Recommendations** | Prioritize what to learn next |
+| **Opportunity Discovery** | Find relevant internships, projects, training and jobs |
+| **AI Matching** | Rank opportunities based on skills and evidence |
+| **Portfolio** | Present projects, certifications and achievements |
+| **Internship Workspace** | Track tasks, milestones and mentor feedback |
+| **Skill Verification** | Capture evidence from assessments and real experiences |
 
-Every student receives a digital **Skill Passport** containing:
+### For Industry
 
-* Technical skills
-* Soft skills
-* Assessments
-* Projects
-* Certifications
-* Internships
-* Academic achievements
-* GitHub/project evidence
-* Industry feedback
-* Verified credentials
+| Capability | Purpose |
+|---|---|
+| **Company Profile** | Establish an organization identity and verification status |
+| **Opportunity Builder** | Create internships, jobs, projects and training opportunities |
+| **Skill Requirement Builder** | Define required and preferred competencies |
+| **AI Candidate Discovery** | Find candidates using structured + semantic matching |
+| **Explainable Matching** | Understand why a candidate matches an opportunity |
+| **Recruitment Pipeline** | Manage applications, shortlisting and selection |
+| **Mentorship** | Guide interns through tasks and milestones |
+| **Industry Feedback** | Provide evidence that can strengthen student skill profiles |
+| **Demand Intelligence** | Understand skills appearing across opportunities |
 
-Skills can have different trust levels:
+### For Academia
+
+| Capability | Purpose |
+|---|---|
+| **Institution Dashboard** | Monitor institution-level skill and opportunity metrics |
+| **Cohort Analytics** | Analyze student skills by department/cohort |
+| **Skill Gap Intelligence** | Identify high-priority gaps against industry demand |
+| **Curriculum Alignment** | Compare academic development with required skills |
+| **Internship Monitoring** | Track participation and internship outcomes |
+| **Placement Intelligence** | Understand career readiness and placement outcomes |
+| **Industry Collaboration** | Manage workshops, FDPs, mentoring, projects and research |
+| **Reports & Analytics** | Support data-driven academic planning |
+
+---
+
+## 🧠 AI Intelligence Layer
+
+The AI layer is designed to support decisions rather than act as an unexplained black box.
+
+```text
+Raw Profile / Resume / Opportunity
+                ↓
+        Information Extraction
+                ↓
+          Skill Detection
+                ↓
+       Skill Normalization
+                ↓
+         Skill Taxonomy
+                ↓
+       Embedding Generation
+                ↓
+     Structured + Semantic Search
+                ↓
+       Skill Gap / Match Score
+                ↓
+      Evidence & Confidence Check
+                ↓
+       Explainable Recommendation
+                ↓
+             Audit Trail
+```
+
+### Skill Normalization
+
+The same skill can appear in many forms:
+
+```text
+JS              ─┐
+Javascript      ─┼──→ JavaScript
+Java Script     ─┤
+ECMAScript      ─┘
+```
+
+Likewise:
+
+```text
+ReactJS         ─┐
+React.js        ─┼──→ React
+React JS        ─┘
+```
+
+A canonical skill representation improves matching, analytics, search, and gap analysis.
+
+### Evidence-Based Skills
+
+EduNexus treats skill claims differently depending on their evidence:
 
 ```text
 Self Declared
      ↓
 Assessed
      ↓
-Project Proven
+Project Evidence
      ↓
 Institution Verified
      ↓
 Industry Verified
 ```
 
-This creates an **evidence-backed skill profile** instead of relying only on self-declared skills.
+A credential or certificate is treated as **evidence**, not automatic proof of mastery.
 
 ---
 
-### 🧠 AI Skill Assessment
+## 🔍 Explainable Matching
 
-Students can evaluate their skills through:
+A recommendation should answer **why** it was produced.
 
-* Technical assessments
-* Domain-specific assessments
-* Role-based assessments
-* Knowledge tests
-* Project-based evidence
-* Skill proficiency evaluation
-
-The system generates an intelligent skill profile based on assessment performance and available evidence.
-
----
-
-### 📊 Skill Gap Analysis
-
-Students can select a target career such as:
-
-* Software Engineer
-* Data Analyst
-* AI Engineer
-* Cybersecurity Engineer
-* Cloud Engineer
-* Product Manager
-
-EduNexus compares the student's current skills with the required skills for the target role.
-
-Example:
+Instead of only showing:
 
 ```text
-Target Role: Backend Developer
-
-Required Skills
-────────────────────────────
-Node.js          ██████████  90%
-Express.js       █████████   80%
-PostgreSQL       ██████      60%
-Docker           ███         30%
-System Design    ██          20%
-
-Overall Readiness: 64%
+86% Match
 ```
 
-The system identifies:
-
-* Missing skills
-* Weak skills
-* Strong skills
-* Priority skills
-* Recommended learning path
-
----
-
-### 🗺️ Personalized Career Path
-
-EduNexus generates a career roadmap:
+EduNexus can expose supporting factors such as:
 
 ```text
-Current Profile
-      ↓
-Target Role
-      ↓
-Required Skills
-      ↓
-Skill Gap
-      ↓
-Learning Recommendations
-      ↓
-Assessment
-      ↓
-Project
-      ↓
-Internship
-      ↓
-Industry Validation
-      ↓
-Career Ready
-```
-
----
-
-## 🏢 Industry Platform
-
-### Industry Skill Requirements
-
-Companies can define requirements for:
-
-* Internships
-* Jobs
-* Apprenticeships
-* Live projects
-* Training programs
-* Mentorship programs
-
-Companies can specify:
-
-* Required skills
-* Preferred skills
-* Skill proficiency
-* Experience
-* Eligibility criteria
-* Location
-* Work mode
-* Duration
-
----
-
-### 🤖 AI Candidate Matching
-
-EduNexus does not simply match candidates using keyword search.
-
-The matching engine considers:
-
-* Skill compatibility
-* Skill proficiency
-* Verified evidence
-* Assessment results
-* Projects
-* Experience
-* Career preferences
-* Eligibility
-* Opportunity requirements
-
-Example:
-
-```text
-Candidate Match
-
-Skill Compatibility       87%
-Verified Evidence         82%
-Assessment Performance    91%
-Project Experience        78%
-Career Alignment          94%
-
-Overall Match             86%
-```
-
----
-
-### 🔍 Explainable Matching
-
-Instead of showing only:
-
-> "86% Match"
-
-EduNexus explains **why**.
-
-Example:
-
-```text
-Why this candidate matches:
+Why this opportunity matches
 
 ✓ Strong JavaScript proficiency
-✓ React project experience
-✓ PostgreSQL knowledge
-✓ Completed relevant assessment
-✓ Career goal aligns with opportunity
+✓ Relevant React project experience
+✓ PostgreSQL experience
+✓ Relevant assessment completed
+✓ Career goal aligns with the opportunity
 
-Skill Gap:
+Potential gaps
 
-⚠ Docker experience is limited
-⚠ Production deployment experience is limited
+⚠ Limited Docker experience
+⚠ Limited production deployment experience
 ```
 
-This makes AI recommendations more transparent and useful.
-
----
-
-# 🎓 Academia Platform
-
-Educational institutions receive an intelligence dashboard containing:
-
-### Student Skill Analytics
-
-Institutions can monitor:
-
-* Skill distribution
-* Department-level skills
-* Cohort readiness
-* Assessment performance
-* Internship participation
-* Placement readiness
-
----
-
-### 📉 Skill Gap Intelligence
-
-EduNexus can identify:
+### Matching Pipeline
 
 ```text
-Industry Demand
-       ↓
-Required Skills
-       ↓
-Student Skill Distribution
-       ↓
-Skill Gap
+Opportunity Requirements
+          ↓
+Hard Eligibility Filter
+          ↓
+Skill Normalization
+          ↓
+Structured Skill Overlap
+          ↓
+Semantic Similarity
+          ↓
+Evidence Strength
+          ↓
+Assessment Performance
+          ↓
+Relevant Experience
+          ↓
+Career Alignment
+          ↓
+Candidate Ranking
+          ↓
+Explanation + Confidence
 ```
 
-Example:
+A conceptual scoring model can combine:
 
-| Skill | Industry Demand | Student Availability |    Gap |
-| ----- | --------------: | -------------------: | -----: |
-| AI/ML |             82% |                  41% |   High |
-| Cloud |             76% |                  38% |   High |
-| Java  |             70% |                  65% | Medium |
-| SQL   |             68% |                  72% |    Low |
+- Skill compatibility
+- Verified evidence
+- Assessment performance
+- Relevant experience
+- Career alignment
+- Eligibility
+- Stated preferences
 
-Institutions can use this information to plan:
-
-* Training programs
-* Workshops
-* FDPs
-* Curriculum improvements
-* Industry sessions
-* Certification programs
-* Placement preparation
+The final weights should be tuned and evaluated against real or carefully constructed evaluation data rather than treated as fixed truth.
 
 ---
 
-# 🤝 Academia–Industry Collaboration
+## 🕸️ Skill Intelligence Graph
 
-EduNexus goes beyond jobs and internships.
+Skills can be modeled as related concepts rather than isolated keywords.
 
-Industries can collaborate with institutions through:
+```text
+                         JavaScript
+                       /           \
+                      /             \
+                  React           Node.js
+                    |                |
+                Frontend          Express
+                                     |
+                                   Backend
+                                     |
+                                 PostgreSQL
+```
 
-* Internships
-* Guest lectures
-* Workshops
-* Faculty Development Programs
-* Mentorship
-* Live projects
-* Research collaboration
-* Curriculum consultation
-* Innovation challenges
-* Industry projects
-* Consultancy
-* Apprenticeships
+This representation can support:
 
-This creates a continuous relationship between academia and industry.
+- Related skills
+- Prerequisites
+- Skill families
+- Career-role relationships
+- Learning paths
+- Emerging skill analysis
 
 ---
 
-# 🏆 Internship Lifecycle
+## 🏆 Internship-to-Outcome Lifecycle
 
-EduNexus manages the complete internship journey.
+EduNexus treats an internship as part of the student's skill journey.
 
 ```text
 Discover
    ↓
-Match
+AI Match
    ↓
 Apply
    ↓
@@ -377,9 +334,9 @@ Interview
    ↓
 Selection
    ↓
-Internship
+Internship Workspace
    ↓
-Tasks & Milestones
+Tasks + Milestones
    ↓
 Mentor Feedback
    ↓
@@ -387,273 +344,125 @@ Completion
    ↓
 Skill Verification
    ↓
-Career Profile Update
+Skill Passport Update
+   ↓
+Career Readiness
 ```
 
-Internships therefore become more than a certificate.
-
-They become **verified skill-building experiences**.
+This creates a measurable connection between **opportunity → experience → evidence → skill growth**.
 
 ---
 
-# 🔐 Skill Trust & Verification
+## 🤝 Academia × Industry Collaboration
 
-One of EduNexus's key concepts is **Skill Trust**.
-
-A student saying:
-
-> "I know React"
-
-is different from:
-
-> "I passed a React assessment."
-
-which is different from:
-
-> "I built a React project."
-
-and different again from:
-
-> "An institution or industry mentor verified my React skills."
-
-EduNexus therefore maintains evidence associated with skills.
-
-### Evidence Sources
+EduNexus supports collaboration beyond recruitment.
 
 ```text
-Self Declaration
-Assessment
-Certification
-Project
-GitHub Evidence
-Internship
-Faculty Verification
-Industry Verification
+Industry
+   │
+   ├── Internships
+   ├── Live Projects
+   ├── Guest Lectures
+   ├── Workshops
+   ├── Mentorship
+   ├── Faculty Development Programs
+   ├── Research Collaboration
+   ├── Curriculum Consultation
+   └── Innovation Challenges
+   │
+   ▼
+Academia
 ```
 
-This creates a more reliable candidate profile.
+The resulting industry signals can feed institutional skill-gap and curriculum-alignment analytics.
 
 ---
 
-# 🧠 AI Intelligence Layer
-
-EduNexus uses AI for multiple intelligence tasks.
-
-### AI Pipeline
+## 🏗️ Architecture
 
 ```text
-Raw Data
-   ↓
-Information Extraction
-   ↓
-Skill Detection
-   ↓
-Skill Normalization
-   ↓
-Skill Ontology
-   ↓
-Embedding Generation
-   ↓
-Semantic Matching
-   ↓
-Skill Gap Analysis
-   ↓
-Recommendation
-   ↓
-Explanation
-   ↓
-Audit
-```
-
----
-
-## 🔤 Skill Normalization
-
-Different people may describe the same skill differently.
-
-For example:
-
-```text
-"JS"
-"Javascript"
-"Java Script"
-"ECMAScript"
-```
-
-EduNexus maps them to a canonical skill representation.
-
-Similarly:
-
-```text
-"ReactJS"
-"React.js"
-"React JS"
-```
-
-can be mapped to:
-
-```text
-React
-```
-
-This improves search, analytics, and candidate matching.
-
----
-
-# 🕸️ Skill Intelligence Graph
-
-EduNexus can represent relationships between skills.
-
-Example:
-
-```text
-                JavaScript
-                    │
-          ┌─────────┴─────────┐
-          ↓                   ↓
-        React              Node.js
-          │                   │
-          ↓                   ↓
-      Frontend             Express
-                              │
-                              ↓
-                          Backend
-                              │
-                              ↓
-                          PostgreSQL
-```
-
-This enables the system to understand:
-
-* Related skills
-* Prerequisite skills
-* Skill categories
-* Career relationships
-* Emerging technologies
-
----
-
-# 🏗️ System Architecture
-
-```text
-┌───────────────────────────────────────────────┐
-│                 EduNexus Users                │
-│                                               │
-│ Student │ Industry │ Academia │ Admin        │
-└──────────────────────┬────────────────────────┘
-                       │
-                       ▼
-┌───────────────────────────────────────────────┐
-│              React Web Application             │
-│        JavaScript + Tailwind CSS              │
-└──────────────────────┬────────────────────────┘
-                       │ REST API
-                       ▼
-┌───────────────────────────────────────────────┐
-│            Node.js + Express.js               │
-│                                               │
-│ Auth │ Skills │ Opportunities │ Matching      │
-│ Apps │ Internship │ Analytics │ Collaboration │
-└───────┬──────────────┬──────────────┬─────────┘
-        │              │              │
-        ▼              ▼              ▼
-┌──────────────┐ ┌──────────────┐ ┌─────────────┐
-│ PostgreSQL   │ │   Redis      │ │ Object      │
-│ + pgvector   │ │ + BullMQ     │ │ Storage     │
-└──────────────┘ └──────────────┘ └─────────────┘
-        │
-        ▼
-┌───────────────────────────────────────────────┐
-│              AI Intelligence Service          │
-│                  FastAPI                      │
-│                                               │
-│ Embeddings │ NLP │ Skill Extraction           │
-│ Matching   │ Recommendations │ Explanations   │
-└───────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────┐
+│                         USERS                               │
+│  Student · Industry · Faculty · Placement · Admin          │
+└────────────────────────────┬────────────────────────────────┘
+                             │
+                             ▼
+┌─────────────────────────────────────────────────────────────┐
+│                    REACT WEB CLIENT                         │
+│              Vite · JavaScript · Tailwind CSS              │
+└────────────────────────────┬────────────────────────────────┘
+                             │ HTTPS / REST
+                             ▼
+┌─────────────────────────────────────────────────────────────┐
+│                 NODE.JS / EXPRESS API                      │
+│                                                             │
+│ Auth · Skills · Opportunities · Matching · Applications     │
+│ Internships · Collaboration · Analytics · Documents         │
+└───────────────┬─────────────────────┬───────────────────────┘
+                │                     │
+                ▼                     ▼
+┌─────────────────────────┐   ┌───────────────────────────────┐
+│       PostgreSQL        │   │       Redis + BullMQ          │
+│     + pgvector          │   │       Background Jobs         │
+│                         │   │                               │
+│ Relational Data         │   │ AI processing                 │
+│ Skill Embeddings        │   │ Notifications                 │
+│ Analytics               │   │ Recommendations               │
+└─────────────────────────┘   └───────────────────────────────┘
+                │
+                ▼
+┌─────────────────────────────────────────────────────────────┐
+│                   AI SERVICE                                │
+│                    FastAPI                                 │
+│                                                             │
+│ NLP · Skill Extraction · Embeddings · Matching              │
+│ Gap Analysis · Recommendations · Explanations               │
+└─────────────────────────────────────────────────────────────┘
+                │
+                ▼
+┌─────────────────────────────────────────────────────────────┐
+│                 OBJECT STORAGE                              │
+│          Documents · Certificates · Evidence                │
+└─────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-# 🛠️ Technology Stack
+## 🛠️ Tech Stack
 
-## Frontend
+| Layer | Technology | Role |
+|---|---|---|
+| Frontend | **React + Vite** | Web application |
+| Styling | **Tailwind CSS** | Responsive UI |
+| Frontend Data | **TanStack Query + Axios** | API state and HTTP |
+| Backend | **Node.js + Express.js** | REST API and business logic |
+| Language | **JavaScript** | Frontend and backend application code |
+| Database | **PostgreSQL** | Core relational data |
+| Vector Search | **pgvector** | Semantic similarity / embeddings |
+| AI Service | **Python + FastAPI** | AI/NLP workloads |
+| Embeddings | **Sentence Transformers / embedding models** | Semantic representation |
+| LLM | **LLM API or local model** | Extraction, reasoning and explanations |
+| Queue | **Redis + BullMQ** | Asynchronous processing |
+| Storage | **S3-compatible object storage** | Documents and evidence |
+| Authentication | **JWT + Refresh Tokens** | Identity and sessions |
+| Authorization | **RBAC + resource-level checks** | Access control |
+| Security | **bcrypt/Argon2, validation, rate limiting** | Application security |
+| DevOps | **Docker / Docker Compose** | Local and deployment environments |
+| Observability | **Structured logging / OpenTelemetry** | Monitoring and diagnostics |
 
-* React.js
-* Vite
-* JavaScript
-* Tailwind CSS
-* React Router
-* TanStack Query
-* Axios
-* Recharts
-
-## Backend
-
-* Node.js
-* Express.js
-* JavaScript
-* REST API
-* JWT Authentication
-* RBAC
-
-## Database
-
-* PostgreSQL
-* pgvector
-
-## AI / ML
-
-* Python
-* FastAPI
-* Sentence Transformers
-* Embedding Models
-* Large Language Models
-* Natural Language Processing
-
-## Caching & Background Processing
-
-* Redis
-* BullMQ
-
-## Storage
-
-* S3-compatible object storage
-
-## Security
-
-* JWT
-* Refresh Tokens
-* RBAC
-* bcrypt / Argon2
-* Input Validation
-* Rate Limiting
-* Audit Logging
-
-## DevOps
-
-* Docker
-* Docker Compose
-* Git
-* GitHub
-* CI/CD
-* Cloud Deployment
+> **Note:** The frontend and Node.js backend are intentionally JavaScript-based. TypeScript is not part of the application stack.
 
 ---
 
-# 📂 Project Structure
+## 📂 Repository Structure
 
 ```text
 EduNexus/
 │
-├── frontend/
+├── frontend/                     # React web application
 │   ├── src/
 │   │   ├── assets/
 │   │   ├── components/
-│   │   │   ├── common/
-│   │   │   ├── forms/
-│   │   │   ├── charts/
-│   │   │   └── tables/
-│   │   │
 │   │   ├── layouts/
 │   │   ├── pages/
 │   │   │   ├── public/
@@ -661,7 +470,6 @@ EduNexus/
 │   │   │   ├── industry/
 │   │   │   ├── academia/
 │   │   │   └── admin/
-│   │   │
 │   │   ├── features/
 │   │   │   ├── auth/
 │   │   │   ├── skills/
@@ -671,7 +479,6 @@ EduNexus/
 │   │   │   ├── internships/
 │   │   │   ├── collaboration/
 │   │   │   └── analytics/
-│   │   │
 │   │   ├── hooks/
 │   │   ├── services/
 │   │   ├── routes/
@@ -680,23 +487,19 @@ EduNexus/
 │   │   ├── validators/
 │   │   ├── App.jsx
 │   │   └── main.jsx
-│   │
 │   └── package.json
 │
-├── backend/
+├── backend/                      # Node.js REST API
 │   ├── src/
 │   │   ├── config/
 │   │   ├── routes/
 │   │   ├── controllers/
 │   │   ├── services/
 │   │   ├── repositories/
-│   │   ├── models/
 │   │   ├── middleware/
 │   │   ├── validators/
-│   │   ├── utils/
 │   │   ├── jobs/
 │   │   ├── integrations/
-│   │   │
 │   │   ├── modules/
 │   │   │   ├── auth/
 │   │   │   ├── users/
@@ -714,13 +517,11 @@ EduNexus/
 │   │   │   ├── analytics/
 │   │   │   ├── documents/
 │   │   │   └── notifications/
-│   │   │
 │   │   ├── app.js
 │   │   └── server.js
-│   │
 │   └── package.json
 │
-├── ai-service/
+├── ai-service/                   # Python AI/NLP service
 │   ├── app/
 │   │   ├── api/
 │   │   ├── models/
@@ -728,15 +529,14 @@ EduNexus/
 │   │   ├── embeddings/
 │   │   ├── skill_engine/
 │   │   └── main.py
-│   │
 │   └── requirements.txt
 │
-├── database/
+├── database/                     # Database migrations, seeds and schema
 │   ├── migrations/
 │   ├── seeds/
 │   └── schema/
 │
-├── docs/
+├── docs/                         # Technical documentation
 │   ├── architecture/
 │   ├── api/
 │   ├── database/
@@ -750,90 +550,145 @@ EduNexus/
 
 ---
 
-# 👥 User Roles
+## 👥 Roles & Access Model
 
-EduNexus supports multiple role-based experiences.
+EduNexus uses role-based access with resource-level authorization.
 
-| Role                      | Main Responsibilities                              |
-| ------------------------- | -------------------------------------------------- |
-| Student                   | Skills, assessments, learning, internships, career |
-| Industry Recruiter        | Opportunities, candidate discovery, recruitment    |
-| Industry Mentor           | Internship supervision and feedback                |
-| Faculty                   | Student development and industry collaboration     |
-| Placement Administrator   | Placement and internship monitoring                |
-| Institution Administrator | Institutional analytics and management             |
-| Platform Administrator    | Verification, moderation and system management     |
+| Role | Primary Scope |
+|---|---|
+| **Student** | Profile, skills, assessments, learning, applications and internships |
+| **Industry Recruiter** | Company opportunities, candidate discovery and recruitment |
+| **Industry Mentor** | Internship tasks, milestones and feedback |
+| **Faculty** | Student development and industry collaboration |
+| **Placement Administrator** | Internship and placement monitoring |
+| **Institution Administrator** | Institution-wide analytics and management |
+| **Platform Administrator** | Verification, moderation, taxonomy and platform operations |
 
----
-
-# 📱 Major Modules
-
-### Authentication & Identity
-
-* Registration
-* Login
-* Email verification
-* Password reset
-* JWT authentication
-* Refresh tokens
-* Role-based access
-
-### Student
-
-* Student dashboard
-* Skill Passport
-* Skill assessment
-* Skill gap analysis
-* Career roadmap
-* Learning recommendations
-* Internship discovery
-* Applications
-* Portfolio
-* Internship workspace
-* Placement opportunities
-
-### Industry
-
-* Company profile
-* Verification
-* Opportunity creation
-* Required skill builder
-* Candidate discovery
-* AI matching
-* Shortlisting
-* Recruitment pipeline
-* Mentorship
-* Industry analytics
-
-### Academia
-
-* Institution dashboard
-* Student analytics
-* Department analytics
-* Skill gap intelligence
-* Curriculum alignment
-* Internship monitoring
-* Placement monitoring
-* FDP opportunities
-* Industry collaboration
-
-### Administration
-
-* User management
-* Company verification
-* Institution verification
-* Skill taxonomy management
-* Assessment management
-* Opportunity moderation
-* Content management
-* Audit logs
-* System analytics
+A role alone should never be treated as sufficient authorization. Backend services should also validate **organization scope, resource ownership, status and permissions**.
 
 ---
 
-# 🔌 API Overview
+## 🔐 Security Principles
 
-EduNexus follows a RESTful API architecture.
+EduNexus is designed with security and privacy as first-class concerns.
+
+### Authentication
+
+```text
+Registration
+    ↓
+Verification
+    ↓
+Password Hashing
+    ↓
+Access + Refresh Tokens
+    ↓
+Protected API
+```
+
+### Authorization
+
+```text
+Request
+  ↓
+JWT Validation
+  ↓
+Role Check
+  ↓
+Organization Scope
+  ↓
+Resource Ownership / Permission
+  ↓
+Business Logic
+```
+
+Security considerations include:
+
+- Strong password hashing
+- Short-lived access tokens
+- Refresh token rotation/revocation
+- Server-side authorization
+- Input validation and sanitization
+- Rate limiting
+- Secure document access
+- Encryption in transit
+- Secret management through environment variables
+- Audit logging for sensitive actions
+- Consent-aware data access
+- No protected attributes in candidate ranking
+
+---
+
+## 🗄️ Core Data Domains
+
+The data model is organized around the following domains:
+
+```text
+Identity
+ ├── Users
+ ├── Students
+ ├── Faculty
+ ├── Institutions
+ ├── Companies
+ ├── Recruiters
+ └── Mentors
+
+Skills
+ ├── Skills
+ ├── Skill Aliases
+ ├── Skill Relations
+ ├── Skill Levels
+ ├── Skill Evidence
+ └── Skill Assessments
+
+Learning
+ ├── Courses
+ ├── Certifications
+ ├── Training Programs
+ ├── Learning Plans
+ └── Recommendations
+
+Opportunities
+ ├── Internships
+ ├── Jobs
+ ├── Projects
+ ├── Workshops
+ ├── FDPs
+ └── Collaborations
+
+Recruitment
+ ├── Applications
+ ├── Shortlists
+ ├── Interviews
+ ├── Offers
+ └── Placement Outcomes
+
+Internship
+ ├── Enrollments
+ ├── Tasks
+ ├── Milestones
+ ├── Mentor Feedback
+ └── Completion Records
+
+Trust
+ ├── Credentials
+ ├── Verifications
+ ├── Documents
+ ├── Consents
+ └── Audit Logs
+
+Analytics
+ ├── Skill Demand Snapshots
+ ├── Cohort Metrics
+ ├── Readiness Scores
+ └── Alignment Metrics
+```
+
+---
+
+## 🔌 API Surface
+
+The backend is intended to expose a versioned REST API.
 
 ### Authentication
 
@@ -844,534 +699,104 @@ POST /api/auth/refresh
 POST /api/auth/logout
 ```
 
-### Student
+### Students
 
 ```http
-GET    /api/students/me
-PATCH  /api/students/me
-GET    /api/students/me/skills
-PATCH  /api/students/me/skills
-GET    /api/students/me/portfolio
+GET   /api/students/me
+PATCH /api/students/me
+GET   /api/students/me/skills
+PATCH /api/students/me/skills
+GET   /api/students/me/portfolio
 ```
 
-### Skills
+### Skills & Assessments
 
 ```http
 GET  /api/skills
 GET  /api/skills/:id
 POST /api/skills/evidence
-```
-
-### Assessments
-
-```http
 GET  /api/assessments
 POST /api/assessments/:id/attempts
 GET  /api/assessments/attempts/:id
 ```
 
-### Opportunities
+### Opportunities & Matching
 
 ```http
 GET  /api/opportunities
 GET  /api/opportunities/:id
 POST /api/opportunities
-```
-
-### Matching
-
-```http
 GET  /api/matches/opportunities
 POST /api/matches/explain
 ```
 
-### Applications
+### Applications & Internships
 
 ```http
-POST  /api/applications
-GET   /api/applications/me
+POST /api/applications
+GET  /api/applications/me
 PATCH /api/applications/:id/status
-```
-
-### Internships
-
-```http
 GET  /api/internships
 POST /api/internships
 POST /api/internships/:id/tasks
 POST /api/internships/:id/feedback
 ```
 
-### Academia
+### Academia & Industry
 
 ```http
-GET /api/academia/analytics
-GET /api/academia/skill-gaps
-GET /api/academia/curriculum-alignment
-```
-
-### Industry
-
-```http
+GET  /api/academia/analytics
+GET  /api/academia/skill-gaps
+GET  /api/academia/curriculum-alignment
 GET  /api/industry/candidates
 GET  /api/industry/demand
 POST /api/industry/opportunities
 ```
 
----
-
-# 📊 Matching Engine
-
-EduNexus uses a hybrid matching strategy.
-
-```text
-Opportunity Requirements
-          ↓
-Hard Eligibility Filter
-          ↓
-Skill Normalization
-          ↓
-Structured Skill Matching
-          ↓
-Semantic Similarity
-          ↓
-Skill Evidence
-          ↓
-Assessment Performance
-          ↓
-Experience
-          ↓
-Career Preference
-          ↓
-Candidate Ranking
-          ↓
-Explanation
-```
-
-A conceptual scoring model:
-
-```text
-Skill Compatibility       35%
-Verified Evidence         20%
-Assessment Performance    15%
-Experience                10%
-Career Alignment          10%
-Eligibility                5%
-Preferences                5%
-```
-
-The scoring weights are configurable and should be validated against real evaluation data.
-
-### Fairness
-
-The matching engine should not use protected characteristics or irrelevant proxies such as:
-
-* Gender
-* Religion
-* Caste
-* Race
-* Political affiliation
-* Other protected attributes
-
-The objective is to evaluate candidates based on **skills, evidence, eligibility, experience, and career relevance**.
+> API request/response contracts should be maintained with OpenAPI once implementation stabilizes.
 
 ---
 
-# 🔐 Security Architecture
+## 🚀 Getting Started
 
-EduNexus follows a security-first design.
+### Prerequisites
 
-### Authentication
+Install the following before running the complete platform:
 
-```text
-User
- ↓
-Login
- ↓
-Credential Verification
- ↓
-JWT Access Token
- ↓
-Refresh Token
- ↓
-Protected API
-```
+- **Node.js 20+**
+- **npm**
+- **PostgreSQL** with `pgvector`
+- **Redis**
+- **Python 3.11+**
+- **Git**
+- **Docker** *(recommended)*
 
-### Authorization
-
-```text
-Request
-   ↓
-JWT Validation
-   ↓
-Role Validation
-   ↓
-Organization Scope
-   ↓
-Resource Ownership
-   ↓
-Controller
-```
-
-Security mechanisms include:
-
-* Password hashing
-* JWT authentication
-* Refresh token rotation
-* RBAC
-* Resource-level authorization
-* Input validation
-* Rate limiting
-* Secure file access
-* Audit logging
-* HTTPS
-* Encryption
-* Secure environment variables
-
----
-
-# 🗄️ Database Domains
-
-EduNexus uses PostgreSQL as its primary relational database.
-
-### Identity
-
-```text
-users
-roles
-students
-faculty
-institutions
-companies
-recruiters
-mentors
-```
-
-### Skills
-
-```text
-skills
-skill_aliases
-skill_relations
-skill_levels
-skill_evidence
-skill_assessments
-```
-
-### Learning
-
-```text
-courses
-certifications
-training_programs
-learning_plans
-recommendations
-```
-
-### Opportunities
-
-```text
-internships
-jobs
-projects
-workshops
-fdps
-collaborations
-```
-
-### Recruitment
-
-```text
-applications
-shortlists
-interviews
-offers
-placement_outcomes
-```
-
-### Internship
-
-```text
-internship_enrollments
-milestones
-tasks
-mentor_feedback
-completions
-```
-
-### Trust
-
-```text
-credentials
-verifications
-documents
-consents
-audit_logs
-```
-
-### Analytics
-
-```text
-skill_demand_snapshots
-cohort_metrics
-readiness_scores
-alignment_metrics
-```
-
----
-
-# ⚡ Background Processing
-
-AI processing and analytics should not block user-facing API requests.
-
-EduNexus uses:
-
-```text
-Redis + BullMQ
-```
-
-for asynchronous tasks such as:
-
-* Resume parsing
-* Skill extraction
-* Embedding generation
-* AI recommendations
-* Notification processing
-* Analytics calculation
-* Skill demand snapshots
-* Document processing
-
-Example:
-
-```text
-Upload Resume
-      ↓
-API
-      ↓
-Job Queue
-      ↓
-AI Processing
-      ↓
-Skill Extraction
-      ↓
-Skill Normalization
-      ↓
-Skill Profile Update
-```
-
----
-
-# 📈 Institutional Intelligence
-
-EduNexus transforms student-level information into institutional intelligence.
-
-Institutions can identify:
-
-```text
-Industry Demand
-      ↓
-Required Skills
-      ↓
-Current Student Skills
-      ↓
-Skill Gap
-      ↓
-Training Requirement
-      ↓
-Curriculum / Workshop
-      ↓
-Student Improvement
-```
-
-This enables **data-driven academic planning**.
-
----
-
-# 🌱 Scalability
-
-The architecture is designed to support growth from:
-
-```text
-100 Students
-      ↓
-1,000 Students
-      ↓
-10,000 Students
-      ↓
-100,000+ Students
-```
-
-Scalability strategies include:
-
-* Stateless backend services
-* PostgreSQL indexing
-* pgvector similarity search
-* Redis caching
-* Background workers
-* Pagination
-* API rate limiting
-* Object storage
-* Containerized services
-* Horizontal scaling
-
----
-
-# 🧪 Testing Strategy
-
-EduNexus should be tested at multiple levels.
-
-### Unit Testing
-
-Test:
-
-* Services
-* Utilities
-* Matching calculations
-* Validation
-* AI processing functions
-
-### Integration Testing
-
-Test:
-
-* API + database
-* Authentication
-* Applications
-* Matching
-* Internship workflows
-
-### End-to-End Testing
-
-Critical flow:
-
-```text
-Student Registration
-       ↓
-Assessment
-       ↓
-Skill Profile
-       ↓
-Skill Gap
-       ↓
-Learning Recommendation
-       ↓
-Internship Match
-       ↓
-Application
-       ↓
-Selection
-       ↓
-Internship
-       ↓
-Mentor Feedback
-       ↓
-Verified Skill
-       ↓
-Institution Analytics
-```
-
----
-
-# 🚀 Getting Started
-
-## Prerequisites
-
-Install:
-
-* Node.js 20+
-* npm
-* PostgreSQL
-* Redis
-* Python 3.11+
-* Git
-* Docker *(recommended)*
-
----
-
-
-# Frontend Setup
+### 1. Clone
 
 ```bash
-cd frontend
-
-npm install
-
-npm run dev
+git clone https://github.com/gnanadeep30805/EduNexus.git
+cd EduNexus
 ```
 
-# Backend Setup
+### 2. Configure Environment
+
+Create environment files from the provided examples:
 
 ```bash
-cd backend
-
-npm install
-
-npm run dev
+cp .env.example .env
 ```
 
-# AI Service Setup
-
-```bash
-cd ai-service
-
-python -m venv venv
-```
-
-Activate the environment.
-
-### Windows
-
-```bash
-venv\Scripts\activate
-```
-
-### Linux / macOS
-
-```bash
-source venv/bin/activate
-```
-
-Install dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
-Run:
-
-```bash
-uvicorn app.main:app --reload
-```
-
----
-
-# Environment Variables
-
-Create:
-
-```text
-.env
-```
-
-from:
-
-```text
-.env.example
-```
-
-Example configuration:
+Example variables:
 
 ```env
 NODE_ENV=development
-
 PORT=5000
 
 DATABASE_URL=postgresql://username:password@localhost:5432/edunexus
-
 REDIS_URL=redis://localhost:6379
 
-JWT_SECRET=your_secret
-JWT_REFRESH_SECRET=your_refresh_secret
+JWT_SECRET=change_me
+JWT_REFRESH_SECRET=change_me
 
 AI_SERVICE_URL=http://localhost:8000
 
@@ -1383,351 +808,404 @@ STORAGE_BUCKET=
 LLM_API_KEY=
 ```
 
-Never commit real secrets to GitHub.
+> Never commit real credentials, API keys, tokens or private configuration to Git.
 
----
+### 3. Frontend
 
-# 🐳 Docker
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-Start the infrastructure:
+Development server:
+
+```text
+http://localhost:5173
+```
+
+### 4. Backend
+
+```bash
+cd backend
+npm install
+npm run dev
+```
+
+API server:
+
+```text
+http://localhost:5000
+```
+
+### 5. AI Service
+
+```bash
+cd ai-service
+python -m venv venv
+```
+
+#### Windows
+
+```bash
+venv\Scripts\activate
+```
+
+#### Linux / macOS
+
+```bash
+source venv/bin/activate
+```
+
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+Run the service:
+
+```bash
+uvicorn app.main:app --reload --port 8000
+```
+
+### 6. Docker
+
+For an environment using the repository's container configuration:
 
 ```bash
 docker compose up -d
 ```
 
-Stop:
+Stop services:
 
 ```bash
 docker compose down
 ```
 
-View logs:
+---
+
+## 🧪 Testing Strategy
+
+EduNexus should be validated at multiple levels.
+
+### Unit Tests
+
+- Business services
+- Validation
+- Matching calculations
+- Skill normalization
+- Utility functions
+- AI processing components
+
+### Integration Tests
+
+- API + database
+- Authentication
+- Authorization
+- Opportunity workflows
+- Applications
+- Internship workflows
+- Matching services
+
+### AI Evaluation
+
+- Skill extraction accuracy
+- Skill normalization accuracy
+- Match relevance
+- Explanation quality
+- Confidence calibration
+- Recommendation usefulness
+- Bias/fairness checks
+
+### End-to-End Test
+
+The primary product journey should be testable from:
+
+```text
+Student Registration
+        ↓
+Assessment
+        ↓
+Skill Passport
+        ↓
+Skill Gap
+        ↓
+Career Goal
+        ↓
+Learning Recommendation
+        ↓
+Opportunity Match
+        ↓
+Application
+        ↓
+Selection
+        ↓
+Internship
+        ↓
+Mentor Feedback
+        ↓
+Skill Verification
+        ↓
+Institution Analytics
+```
+
+---
+
+## 📊 Institutional Intelligence
+
+One of EduNexus's major differentiators is converting student-level information into **actionable institutional intelligence**.
+
+```text
+Industry Demand
+       ↓
+Required Skills
+       ↓
+Student Skill Distribution
+       ↓
+Gap Analysis
+       ↓
+Training / Curriculum Action
+       ↓
+Student Improvement
+       ↓
+Outcome Measurement
+```
+
+Potential institutional metrics include:
+
+- Skill distribution by cohort
+- Skill gaps by department
+- Industry demand by skill
+- Student readiness
+- Internship participation
+- Placement outcomes
+- Curriculum-to-skill alignment
+- Opportunity participation
+- Emerging skill trends
+
+---
+
+## 📈 Scalability Considerations
+
+The architecture is designed so the platform can evolve from a prototype into a multi-institution system.
+
+Key strategies:
+
+- Stateless API services
+- Database indexing and query optimization
+- PostgreSQL + pgvector for vector retrieval
+- Redis caching
+- Asynchronous AI workloads
+- Pagination and filtering
+- Object storage for large files
+- Containerized deployment
+- Horizontal service scaling
+- Observability and structured logging
+
+---
+
+## 🗺️ Roadmap
+
+### Phase 01 — Foundation
+
+- [ ] Repository and service structure
+- [ ] Authentication
+- [ ] Role-based access control
+- [ ] PostgreSQL schema
+- [ ] Core dashboards
+- [ ] Institution/company onboarding
+
+### Phase 02 — Skill Intelligence
+
+- [ ] Skill taxonomy
+- [ ] Skill aliases and normalization
+- [ ] Student Skill Passport
+- [ ] Assessments
+- [ ] Skill evidence
+- [ ] Skill gap analysis
+
+### Phase 03 — Opportunity Engine
+
+- [ ] Internship management
+- [ ] Job management
+- [ ] Project opportunities
+- [ ] Skill requirement builder
+- [ ] Candidate discovery
+- [ ] Explainable matching
+
+### Phase 04 — Academia Intelligence
+
+- [ ] Cohort analytics
+- [ ] Industry demand analytics
+- [ ] Skill gap dashboard
+- [ ] Curriculum alignment
+- [ ] Internship monitoring
+- [ ] Placement analytics
+
+### Phase 05 — Internship-to-Outcome
+
+- [ ] Internship workspace
+- [ ] Tasks and milestones
+- [ ] Mentor feedback
+- [ ] Skill verification
+- [ ] Outcome tracking
+- [ ] Skill Passport updates
+
+### Phase 06 — Production Hardening
+
+- [ ] Automated testing
+- [ ] Security testing
+- [ ] AI evaluation
+- [ ] Performance optimization
+- [ ] Monitoring
+- [ ] CI/CD
+- [ ] Production deployment
+
+---
+
+## 🏁 Product Demonstration Flow
+
+A strong demonstration of EduNexus should tell one continuous story rather than showing disconnected screens.
+
+### Student → AI → Industry → Internship → Academia
+
+```text
+1. Student creates profile
+             ↓
+2. Student takes assessment
+             ↓
+3. EduNexus builds skill profile
+             ↓
+4. AI identifies skill gaps
+             ↓
+5. Student selects target career
+             ↓
+6. AI generates development path
+             ↓
+7. Industry publishes opportunity
+             ↓
+8. AI matches eligible candidates
+             ↓
+9. Candidate receives explainable match
+             ↓
+10. Student applies
+             ↓
+11. Industry shortlists and selects
+             ↓
+12. Student enters internship workspace
+             ↓
+13. Mentor assigns tasks and feedback
+             ↓
+14. Skills gain evidence / verification
+             ↓
+15. Student profile becomes stronger
+             ↓
+16. Institution sees aggregated skill intelligence
+```
+
+This flow demonstrates the core value of EduNexus: **learning, opportunity, experience, evidence and institutional intelligence are connected.**
+
+---
+
+## 🌟 Differentiation
+
+EduNexus should not be positioned as merely:
+
+```text
+❌ Job Portal
+❌ Internship Portal
+❌ Learning Portal
+❌ Student Management System
+```
+
+Its intended value comes from combining:
+
+```text
+Student Skill Intelligence
+          +
+Career & Skill Gap Intelligence
+          +
+Industry Opportunity Matching
+          +
+Evidence & Skill Verification
+          +
+Internship Experience Tracking
+          +
+Academia–Industry Collaboration
+          +
+Institutional Skill Analytics
+```
+
+### The Core Differentiator
+
+> **Industry requirements influence skill intelligence → skill intelligence guides student development → students build evidence through learning and experience → industry validates those skills → institutions learn from the resulting intelligence.**
+
+---
+
+## 🔮 Future Scope
+
+Potential future extensions include:
+
+- AI career mentor
+- Multilingual career assistance
+- Voice-based guidance
+- Advanced skill graph
+- Industry skill forecasting
+- Automated assessment generation
+- Project recommendation engine
+- Portfolio intelligence
+- Verifiable digital credentials
+- Government skilling ecosystem integrations
+- Institution benchmarking
+- Industry demand forecasting
+- Advanced outcome prediction
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome as the platform evolves.
 
 ```bash
-docker compose logs -f
-```
-
----
-
-# 🗺️ Development Roadmap
-
-## Phase 1 — Foundation
-
-* Project architecture
-* Authentication
-* User roles
-* PostgreSQL setup
-* Basic dashboards
-* RBAC
-
-## Phase 2 — Skill Intelligence
-
-* Skill taxonomy
-* Skill normalization
-* Student Skill Passport
-* Assessments
-* Skill evidence
-* Skill gap analysis
-
-## Phase 3 — Opportunity Engine
-
-* Internship management
-* Job management
-* Industry profiles
-* Opportunity requirements
-* Candidate matching
-* Explainable recommendations
-
-## Phase 4 — Academia Intelligence
-
-* Institution dashboard
-* Skill demand analytics
-* Cohort skill gaps
-* Curriculum alignment
-* Internship analytics
-
-## Phase 5 — Internship-to-Outcome
-
-* Internship workspace
-* Tasks
-* Milestones
-* Mentor feedback
-* Skill verification
-* Placement outcomes
-
-## Phase 6 — Production Hardening
-
-* Security testing
-* Performance optimization
-* AI evaluation
-* Monitoring
-* Logging
-* Deployment
-* Documentation
-
----
-
-# 🎬 Demonstration Flow
-
-The ideal EduNexus demonstration follows one continuous story:
-
-### 1. Student
-
-```text
-Register
- ↓
-Create Skill Passport
- ↓
-Take Assessment
- ↓
-View Skill Gap
- ↓
-Select Career
-```
-
-### 2. AI
-
-```text
-Analyze Skills
- ↓
-Identify Gaps
- ↓
-Recommend Learning
- ↓
-Generate Career Path
-```
-
-### 3. Industry
-
-```text
-Create Internship
- ↓
-Define Required Skills
- ↓
-AI Finds Candidates
- ↓
-View Match Explanation
-```
-
-### 4. Student
-
-```text
-Apply
- ↓
-Interview
- ↓
-Selected
- ↓
-Internship Workspace
-```
-
-### 5. Industry Mentor
-
-```text
-Assign Tasks
- ↓
-Track Milestones
- ↓
-Provide Feedback
- ↓
-Verify Skills
-```
-
-### 6. Academia
-
-```text
-View Student Progress
- ↓
-Analyze Skill Gaps
- ↓
-Compare Industry Demand
- ↓
-Improve Training / Curriculum
-```
-
-# 🌟 What Makes EduNexus Different?
-
-EduNexus is not simply:
-
-```text
-Job Portal
-```
-
-or:
-
-```text
-Internship Portal
-```
-
-or:
-
-```text
-Learning Platform
-```
-
-It combines:
-
-```text
-┌─────────────────────────────┐
-│       Student Skills        │
-├─────────────────────────────┤
-│     AI Skill Intelligence   │
-├─────────────────────────────┤
-│      Career Guidance        │
-├─────────────────────────────┤
-│ Internships & Opportunities │
-├─────────────────────────────┤
-│    Industry Collaboration   │
-├─────────────────────────────┤
-│     Academic Analytics      │
-├─────────────────────────────┤
-│     Skill Verification      │
-├─────────────────────────────┤
-│     Placement Intelligence  │
-└─────────────────────────────┘
-```
-
-The strongest differentiator is the **closed-loop skill intelligence system**:
-
-> **Industry requirements influence skill intelligence → skill intelligence guides students → students build verified skills → industry validates those skills → institutions learn from the resulting data.**
-
----
-
-# 🎯 Expected Impact
-
-### Students
-
-* Better career clarity
-* Personalized skill development
-* Improved internship discovery
-* Evidence-backed profiles
-* Better placement readiness
-
-### Industries
-
-* Faster candidate discovery
-* Skill-based recruitment
-* Better candidate matching
-* Reduced screening effort
-* Stronger academia relationships
-
-### Institutions
-
-* Real-time skill intelligence
-* Better curriculum alignment
-* Improved internship tracking
-* Placement readiness analytics
-* Stronger industry collaboration
-
-### Overall Ecosystem
-
-```text
-Better Skills
-     +
-Better Opportunities
-     +
-Better Industry Alignment
-     =
-Better Employability
-```
-
----
-
-# 🔮 Future Scope
-
-Future versions of EduNexus can introduce:
-
-* AI career mentors
-* Multilingual AI assistance
-* Voice-based career guidance
-* Advanced skill graphs
-* Industry skill forecasting
-* Government skilling ecosystem integrations
-* Verifiable digital credentials
-* Blockchain-based credential verification
-* AI-generated assessments
-* Project recommendation engine
-* Automated portfolio analysis
-* Advanced placement prediction
-* Institution benchmarking
-* Industry demand forecasting
-
----
-
-# 🤝 Contribution
-
-Contributions are welcome.
-
-### 1. Fork the repository
-
-```bash
-git fork
-```
-
-### 2. Create a feature branch
-
-```bash
+# Create a branch
 git checkout -b feature/your-feature
-```
 
-### 3. Commit changes
+# Make changes and commit
+git add .
+git commit -m "feat: describe your change"
 
-```bash
-git commit -m "feat: add your feature"
-```
-
-### 4. Push
-
-```bash
+# Push
 git push origin feature/your-feature
 ```
 
-### 5. Create a Pull Request
+Then open a Pull Request with:
 
-Please ensure that your contribution includes appropriate documentation and tests where applicable.
-
----
-
-# 📜 License
-
-This project is developed for educational, research, and innovation purposes.
-
-Add the appropriate project license before production distribution.
+- Clear description of the change
+- Relevant screenshots for UI changes
+- Tests where applicable
+- Updated documentation when behavior changes
 
 ---
 
-# 👨‍💻 Team
+## 📄 License
 
-**EduNexus**
+This repository is currently developed for **education, research, innovation and hackathon purposes**.
 
-### Academia × Industry × AI
-
-> **From learning skills to proving skills to building careers.**
+Add the project's final license before production or external distribution.
 
 ---
 
-# 🏁 Project Status
+## 👨‍💻 Project
 
-```text
-🚧 Active Development
-```
+<div align="center">
 
-EduNexus is being developed as an AI-powered solution for **SIH 2026 Problem Statement 26044 — Portal for Academia–Industry Collaboration for Skill Mapping, Internships and Placement.**
+### EduNexus
 
----
+**Academia × Industry × AI**
 
-# ⭐ Support the Project
+*From learning skills → to proving skills → to building careers.*
 
-If you find EduNexus useful or interesting:
+**SIH 2026 · Problem Statement 26044**
 
-⭐ Star the repository
-🍴 Fork the project
-🐛 Report issues
-💡 Suggest improvements
-🤝 Contribute
-
----
-
-## EduNexus
-
-### **Bridging Skills. Connecting Opportunities. Building Careers.**
+</div>
