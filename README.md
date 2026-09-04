@@ -1657,15 +1657,7 @@ Evaluate:
 
 ## Prerequisites
 
-Install:
-
-* Node.js
-* npm
-* Python
-* PostgreSQL
-* Redis
-* Git
-* Docker (recommended)
+Install Node.js 20+, npm, Python 3.11+, Git, and Docker Desktop with Compose. PostgreSQL 16, pgvector, Redis 7, and MinIO are provided through the repository Compose stack.
 
 ---
 
@@ -1687,6 +1679,16 @@ cd frontend
 npm install
 
 npm run dev
+```
+
+The first Industry workspace is available at `http://localhost:5173`.
+
+## Docker infrastructure
+
+From the repository root, start PostgreSQL with pgvector, Redis, and MinIO:
+
+```powershell
+docker compose up -d
 ```
 
 ---
