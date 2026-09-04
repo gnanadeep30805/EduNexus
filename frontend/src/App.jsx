@@ -3,6 +3,7 @@ import './App.css'
 import './funnel.css'
 import './auth.css'
 import AcademiaDashboard from './AcademiaDashboard.jsx'
+import StudentDashboard from './StudentDashboard.jsx'
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000/api'
 
@@ -80,6 +81,7 @@ function App() {
   if (loading && !dashboard) return <main className="state-shell"><div className="state-card"><span className="state-spinner" /><h1>Loading your workspace</h1><p>Fetching live recruitment data.</p></div></main>
   if (error && !dashboard) return <main className="state-shell"><div className="state-card"><h1>Dashboard unavailable</h1><p>{error}</p><button className="primary-button" onClick={() => setToken(token)}>Try again</button><button className="text-button" onClick={signOut}>Sign out</button></div></main>
   if (profile && ['ACADEMIA', 'ADMIN'].includes(profile.user?.role)) return <AcademiaDashboard token={token} profile={profile} onSignOut={signOut} />
+  if (profile?.user?.role === 'STUDENT') return <StudentDashboard token={token} profile={profile} onSignOut={signOut} />
 
   const metrics = dashboard?.metrics || {}
   const applications = dashboard?.recentApplications || []

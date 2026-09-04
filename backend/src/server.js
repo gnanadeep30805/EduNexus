@@ -4,6 +4,7 @@ import helmet from 'helmet'
 import industryRoutes from './routes/industry.routes.js'
 import authRoutes from './routes/auth.routes.js'
 import academiaRoutes from './routes/academia.routes.js'
+import studentRoutes from './routes/student.routes.js'
 import { config } from './config.js'
 import { AppError } from './utils/errors.js'
 
@@ -21,6 +22,7 @@ app.get('/health', (_request, response) => {
 app.use('/api/auth', authRoutes)
 app.use('/api/industry', industryRoutes)
 app.use('/api/academia', academiaRoutes)
+app.use('/api/students', studentRoutes)
 
 app.use((_request, response) => {
   response.status(404).json({ success: false, error: { code: 'NOT_FOUND', message: 'Resource not found', details: [] } })
