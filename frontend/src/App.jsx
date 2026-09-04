@@ -54,7 +54,7 @@ function LoginScreen({ onLogin, module }) {
 function App() {
   const module = window.location.pathname.split('/')[1] || 'industry'
   const selectedModule = MODULES[module] ? module : 'industry'
-  const [token, setToken] = useState(() => localStorage.getItem('edunexus_token'))
+  const [token, setToken] = useState(() => localStorage.getItem('edunexus_module') === selectedModule ? localStorage.getItem('edunexus_token') : null)
   const [dashboard, setDashboard] = useState(null)
   const [profile, setProfile] = useState(null)
   const [loading, setLoading] = useState(Boolean(token))
@@ -84,11 +84,12 @@ function App() {
 
   function signOut() {
     localStorage.removeItem('edunexus_token')
+    localStorage.removeItem('edunexus_module')
     setToken(null)
     setDashboard(null)
   }
 
-  if (!token) return <LoginScreen module={selectedModule} onLogin={(value) => { setLoading(true); setToken(value) }} />
+  if (!token) return <LoginScreen module={selectedModule} onLogin={(value) => { localStorage.setItem('edunexus_module', selectedModule); setLoading(true); setToken(value) }} />
   if (loading && !dashboard) return <main className="state-shell"><div className="state-card"><span className="state-spinner" /><h1>Loading your workspace</h1><p>Fetching live recruitment data.</p></div></main>
   if (error && !dashboard) return <main className="state-shell"><div className="state-card"><h1>Dashboard unavailable</h1><p>{error}</p><button className="primary-button" onClick={() => setToken(token)}>Try again</button><button className="text-button" onClick={signOut}>Sign out</button></div></main>
   if (profile && ['ACADEMIA', 'ADMIN'].includes(profile.user?.role)) return <AcademiaDashboard token={token} profile={profile} onSignOut={signOut} />
