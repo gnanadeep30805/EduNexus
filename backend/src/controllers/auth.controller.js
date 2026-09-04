@@ -23,6 +23,7 @@ export const me = asyncHandler(async (req, res) => {
   success(res, {
     user: { id: req.user.id, fullName: req.user.fullName, email: req.user.email, role: req.user.role },
     membership: { companyId: req.user.companyId, companyRole: req.user.companyRole },
+    institution: req.user.institution,
     company: req.user.company,
   }, 'Profile loaded')
 })

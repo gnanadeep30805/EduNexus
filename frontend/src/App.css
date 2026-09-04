@@ -25,3 +25,15 @@ nav { margin-top: 30px; }.nav-label, .eyebrow { color: #98a29e; font-size: 10px;
 @media (max-width: 1050px) { .sidebar { flex-basis: 210px; }.page-wrap { padding-inline: 25px; }.topbar { padding-inline: 25px; }.candidate-skills { display: none; } }
 @media (max-width: 760px) { .sidebar { display: none; }.mobile-menu { display: block; font-size: 18px; }.topbar { height: 62px; padding-inline: 17px; }.breadcrumb { margin-left: 8px; }.profile-name { display: none; }.profile-chip { padding-left: 8px; }.page-wrap { padding: 28px 16px 20px; }.welcome-row { align-items: flex-start; flex-direction: column; gap: 18px; }.welcome-row h1 { font-size: 25px; }.signal-banner { align-items: flex-start; flex-wrap: wrap; }.signal-banner a { margin-left: 45px; }.metric-grid { grid-template-columns: repeat(2, 1fr); }.content-grid, .lower-grid { grid-template-columns: 1fr; }.pipeline-panel { min-width: 0; }.interview-item p { max-width: 170px; } }
 @media (max-width: 420px) { .metric-card { padding: 14px; }.metric-heading { font-size: 10px; }.metric-card > strong { font-size: 23px; }.panel { padding: 16px; }.panel-header .text-button { font-size: 10px; }.candidate-info { min-width: 115px; }.match-badge { font-size: 8px; padding-inline: 6px; } }
+
+.nav-item { background: transparent; border: 0; text-align: left; width: 100%; }
+.data-panel { min-width: 0; }
+.table-search { border: 1px solid var(--line); border-radius: 7px; color: var(--ink); font-size: 11px; outline: none; padding: 8px 10px; width: 160px; }
+.table-search:focus { border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-pale); }
+.table-wrap { margin-top: 18px; overflow-x: auto; }
+table { border-collapse: collapse; min-width: 640px; width: 100%; }
+th { color: #98a29e; font-size: 10px; font-weight: 700; letter-spacing: .04em; padding: 0 12px 11px; text-align: left; text-transform: uppercase; }
+td { border-top: 1px solid #f0f1ef; color: var(--muted); font-size: 11px; padding: 13px 12px; white-space: nowrap; }
+td:first-child { color: var(--ink); font-weight: 600; }
+.institution-panel .metric-grid { grid-template-columns: repeat(3, 1fr); margin-top: 25px; }
+@media (max-width: 760px) { .table-search { width: 120px; }.institution-panel .metric-grid { grid-template-columns: 1fr; } }

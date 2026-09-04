@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import './App.css'
 import './funnel.css'
 import './auth.css'
+import AcademiaDashboard from './AcademiaDashboard.jsx'
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000/api'
 
@@ -45,17 +46,23 @@ function LoginScreen({ onLogin }) {
 function App() {
   const [token, setToken] = useState(() => localStorage.getItem('edunexus_token'))
   const [dashboard, setDashboard] = useState(null)
+  const [profile, setProfile] = useState(null)
   const [loading, setLoading] = useState(Boolean(token))
   const [error, setError] = useState('')
 
   useEffect(() => {
     if (!token) return
     let cancelled = false
-    fetch(`${API_URL}/industry/dashboard`, { headers: { Authorization: `Bearer ${token}` } })
+    fetch(`${API_URL}/auth/me`, { headers: { Authorization: `Bearer ${token}` } })
       .then(async (response) => {
         const result = await response.json()
-        if (!response.ok || !result.success) throw new Error(result.error?.message || 'Unable to load dashboard')
-        return result.data
+        if (!response.ok || !result.success) throw new Error(result.error?.message || 'Unable to load profile')
+        setProfile(result.data)
+        const endpoint = ['ACADEMIA', 'ADMIN'].includes(result.data.user.role) ? 'academia/dashboard' : 'industry/dashboard'
+        const dashboardResponse = await fetch(`${API_URL}/${endpoint}`, { headers: { Authorization: `Bearer ${token}` } })
+        const dashboardResult = await dashboardResponse.json()
+        if (!dashboardResponse.ok || !dashboardResult.success) throw new Error(dashboardResult.error?.message || 'Unable to load dashboard')
+        return dashboardResult.data
       })
       .then((data) => { if (!cancelled) { setDashboard(data); setError('') } })
       .catch((loadError) => { if (!cancelled) { setError(loadError.message); if (loadError.message.includes('token')) { localStorage.removeItem('edunexus_token'); setToken(null) } } })
@@ -72,6 +79,7 @@ function App() {
   if (!token) return <LoginScreen onLogin={(value) => { setLoading(true); setToken(value) }} />
   if (loading && !dashboard) return <main className="state-shell"><div className="state-card"><span className="state-spinner" /><h1>Loading your workspace</h1><p>Fetching live recruitment data.</p></div></main>
   if (error && !dashboard) return <main className="state-shell"><div className="state-card"><h1>Dashboard unavailable</h1><p>{error}</p><button className="primary-button" onClick={() => setToken(token)}>Try again</button><button className="text-button" onClick={signOut}>Sign out</button></div></main>
+  if (profile && ['ACADEMIA', 'ADMIN'].includes(profile.user?.role)) return <AcademiaDashboard token={token} profile={profile} onSignOut={signOut} />
 
   const metrics = dashboard?.metrics || {}
   const applications = dashboard?.recentApplications || []

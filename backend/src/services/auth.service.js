@@ -72,6 +72,13 @@ export const authService = {
       [user.id],
     )
     const membership = compRows.rows[0] || null
+    const institutionRows = await query(
+      `SELECT iu.*, i.name AS institution_name, i.verification_status
+       FROM institution_users iu JOIN institutions i ON i.id = iu.institution_id
+       WHERE iu.user_id = $1 AND iu.is_active = TRUE LIMIT 1`,
+      [user.id],
+    )
+    const institution = institutionRows.rows[0] || null
 
     const token = signToken(user, membership)
 
@@ -84,6 +91,9 @@ export const authService = {
       user: { id: user.id, fullName: user.full_name, email: user.email, role: user.role, avatar: user.avatar },
       membership: membership
         ? { companyId: membership.company_id, companyRole: membership.role, designation: membership.designation }
+        : null,
+      institution: institution
+        ? { institutionId: institution.institution_id, institutionRole: institution.role, name: institution.institution_name, verificationStatus: institution.verification_status }
         : null,
       company: company
         ? { id: company.id, name: company.name, verificationStatus: company.verification_status, industry: company.industry }
@@ -108,6 +118,13 @@ export const authService = {
       [user.id],
     )
     const membership = compRows.rows[0] || null
+    const institutionRows = await query(
+      `SELECT iu.*, i.name AS institution_name, i.verification_status
+       FROM institution_users iu JOIN institutions i ON i.id = iu.institution_id
+       WHERE iu.user_id = $1 AND iu.is_active = TRUE LIMIT 1`,
+      [user.id],
+    )
+    const institution = institutionRows.rows[0] || null
 
     return {
       id: user.id,
@@ -116,6 +133,11 @@ export const authService = {
       role: user.role,
       companyId: membership?.company_id || null,
       companyRole: membership?.role || null,
+      institutionId: institution?.institution_id || null,
+      institutionRole: institution?.role || null,
+      institution: institution
+        ? { id: institution.institution_id, name: institution.institution_name, verificationStatus: institution.verification_status }
+        : null,
       company: membership
         ? (await query('SELECT * FROM companies WHERE id = $1', [membership.company_id])).rows[0] || null
         : null,

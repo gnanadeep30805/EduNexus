@@ -34,3 +34,15 @@ export function requireVerified(req, _res, next) {
   }
   next()
 }
+
+export function requireAcademia(req, _res, next) {
+  if (!['ACADEMIA', 'ADMIN'].includes(req.user?.role) || !req.user?.institutionId) {
+    return next(Errors.forbidden('An active institution membership is required'))
+  }
+  next()
+}
+
+export function requirePlatformAdmin(req, _res, next) {
+  if (req.user?.role !== 'ADMIN') return next(Errors.forbidden('Platform administrator access is required'))
+  next()
+}
