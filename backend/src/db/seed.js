@@ -4,25 +4,64 @@ import { query, pool } from './pool.js'
 async function seed() {
   console.log('Seeding EduNexus demo data...')
 
-  const { rows: counts } = await query('SELECT COUNT(*)::int AS n FROM companies')
-  if (counts[0].n > 0) {
-    console.log('Data already present, skipping seed.')
-    await pool.end()
-    return
-  }
-
   const passwordHash = await bcrypt.hash('Password@123', 10)
 
+  async function findOrCreateUser({ full_name, email, role }) {
+    const existing = await query('SELECT * FROM users WHERE lower(email) = lower($1)', [email])
+    if (existing.rows[0]) return existing.rows[0]
+    return insert('users', { full_name, email, password_hash: passwordHash, role })
+  }
+
+  async function findOrCreateCompany(details) {
+    const existing = await query('SELECT * FROM companies WHERE lower(name) = lower($1)', [details.name])
+    if (existing.rows[0]) return existing.rows[0]
+    return insert('companies', details)
+  }
+
+  async function findOrCreateInstitution(details) {
+    const existing = await query('SELECT * FROM institutions WHERE lower(name) = lower($1)', [details.name])
+    if (existing.rows[0]) return existing.rows[0]
+    return insert('institutions', details)
+  }
+
+  async function ensureInstitutionUser(institutionId, userId, role) {
+    const existing = await query('SELECT * FROM institution_users WHERE institution_id = $1 AND user_id = $2', [institutionId, userId])
+    if (existing.rows[0]) return existing.rows[0]
+    return insert('institution_users', { institution_id: institutionId, user_id: userId, role, is_active: true })
+  }
+
+  async function ensureDepartment(institutionId, name, code) {
+    const existing = await query('SELECT * FROM departments WHERE institution_id = $1 AND lower(code) = lower($2)', [institutionId, code])
+    if (existing.rows[0]) return existing.rows[0]
+    return insert('departments', { institution_id: institutionId, name, code })
+  }
+
+  async function ensureRecord(table, data, matchColumns = []) {
+    if (!matchColumns.length) {
+      const existing = await query(`SELECT * FROM ${table} LIMIT 1`)
+      if (existing.rows[0]) return existing.rows[0]
+      return insert(table, data)
+    }
+    const where = matchColumns.map((column, index) => `${column} = $${index + 1}`).join(' AND ')
+    const values = matchColumns.map((column) => data[column])
+    const existing = await query(`SELECT * FROM ${table} WHERE ${where} LIMIT 1`, values)
+    if (existing.rows[0]) return existing.rows[0]
+    return insert(table, data)
+  }
+
   // --- Users ---
-  const recruiterUser = await insert('users', {
-    full_name: 'Priya Sharma', email: 'priya@technova.com', password_hash: passwordHash, role: 'RECRUITER',
+  const recruiterUser = await findOrCreateUser({
+    full_name: 'Priya Sharma', email: 'priya@technova.com', role: 'RECRUITER',
   })
-  const adminUser = await insert('users', {
-    full_name: 'Rahul Verma', email: 'rahul@technova.com', password_hash: passwordHash, role: 'RECRUITER',
+  const adminUser = await findOrCreateUser({
+    full_name: 'Rahul Verma', email: 'rahul@technova.com', role: 'RECRUITER',
+  })
+  const academicUser = await findOrCreateUser({
+    full_name: 'Aisha Iyer', email: 'aisha@iiit.ac.in', role: 'ACADEMIA',
   })
 
   // --- Company ---
-  const company = await insert('companies', {
+  const company = await findOrCreateCompany({
     name: 'TechNova Solutions', description: 'Full-service product engineering company building scalable cloud-native platforms for finance, healthcare and e-commerce clients.',
     industry: 'Software & IT Services', website: 'https://technova.example.com', location: 'Bengaluru, Karnataka',
     logo: '', company_size: '201-500', domains: ['FinTech', 'HealthTech', 'E-Commerce'],
@@ -31,21 +70,36 @@ async function seed() {
     verification_status: 'VERIFIED',
   })
 
-  await insert('company_users', {
+  // --- Academy institution ---
+  const institution = await findOrCreateInstitution({
+    name: 'IIIT Hyderabad', description: 'Premier research and engineering institution focused on computer science, AI, and industry-ready talent.',
+    website: 'https://iiit.ac.in', location: 'Hyderabad, Telangana', institution_type: 'UNIVERSITY',
+    verification_status: 'VERIFIED',
+  })
+  await ensureInstitutionUser(institution.id, academicUser.id, 'INSTITUTION_ADMIN')
+
+  const departments = {
+    CSE: await ensureDepartment(institution.id, 'Computer Science and Engineering', 'CSE'),
+    ECE: await ensureDepartment(institution.id, 'Electronics and Communication Engineering', 'ECE'),
+    DS: await ensureDepartment(institution.id, 'Data Science', 'DS'),
+    IT: await ensureDepartment(institution.id, 'Information Technology', 'IT'),
+  }
+
+  await ensureRecord('company_users', {
     company_id: company.id, user_id: recruiterUser.id, role: 'COMPANY_ADMIN',
     designation: 'Talent Acquisition Lead', department: 'Human Resources',
     areas_of_hiring: ['Backend Engineering', 'Data Engineering', 'Frontend'],
-  })
-  await insert('company_users', {
+  }, ['company_id', 'user_id'])
+  await ensureRecord('company_users', {
     company_id: company.id, user_id: adminUser.id, role: 'HIRING_MANAGER',
     designation: 'Engineering Manager', department: 'Engineering',
     areas_of_hiring: ['Backend Engineering', 'Platform'],
-  })
+  }, ['company_id', 'user_id'])
 
-  await insert('recruiters', {
+  await ensureRecord('recruiters', {
     user_id: recruiterUser.id, company_id: company.id, designation: 'Talent Acquisition Lead',
     department: 'Human Resources', areas_of_hiring: ['Backend Engineering', 'Data Engineering'],
-  })
+  }, ['user_id', 'company_id'])
 
   // --- Skills ---
   const skills = {
@@ -71,12 +125,17 @@ async function seed() {
   }
   const skillIds = {}
   for (const [key, s] of Object.entries(skills)) {
+    const existing = await query('SELECT id FROM skills WHERE lower(name) = lower($1)', [s.name])
+    if (existing.rows[0]) {
+      skillIds[key] = existing.rows[0].id
+      continue
+    }
     const r = await insert('skills', s)
     skillIds[key] = r.id
   }
-  await insert('skill_aliases', { skill_id: skillIds.JavaScript, alias: 'JS' })
-  await insert('skill_aliases', { skill_id: skillIds.JavaScript, alias: 'Javascript' })
-  await insert('skill_aliases', { skill_id: skillIds.JavaScript, alias: 'Java Script' })
+  await ensureRecord('skill_aliases', { skill_id: skillIds.JavaScript, alias: 'JS' }, ['alias'])
+  await ensureRecord('skill_aliases', { skill_id: skillIds.JavaScript, alias: 'Javascript' }, ['alias'])
+  await ensureRecord('skill_aliases', { skill_id: skillIds.JavaScript, alias: 'Java Script' }, ['alias'])
 
   // --- Opportunities ---
   const backRole = await insert('opportunities', {
@@ -143,9 +202,9 @@ async function seed() {
     [mlRole.id, 'Docker', 'BASIC', 'PREFERRED', 0.5],
   ]
   for (const [oid, key, lvl, prio, yrs] of oppSkills) {
-    await insert('opportunity_skills', {
+    await ensureRecord('opportunity_skills', {
       opportunity_id: oid, skill_id: skillIds[key], required_level: lvl, priority: prio, years_experience: yrs,
-    })
+    }, ['opportunity_id', 'skill_id'])
   }
 
   // --- Students / candidates ---
@@ -162,13 +221,13 @@ async function seed() {
 
   const studentRecords = []
   for (const c of candidates) {
-    const user = await insert('users', {
-      full_name: c.full_name, email: c.email, password_hash: passwordHash, role: 'STUDENT',
-    })
+    const user = await findOrCreateUser({ full_name: c.full_name, email: c.email, role: 'STUDENT' })
+    const departmentKey = /data science|analytics/i.test(c.course) ? 'DS' : /it|information technology/i.test(c.course) ? 'IT' : /electronics|ece/i.test(c.course) ? 'ECE' : 'CSE'
     const student = await insert('students', {
       user_id: user.id, first_name: c.first, last_name: c.last, institution_name: c.inst, course: c.course,
       graduation_year: c.grad, location: c.loc, bio: c.bio, career_interests: c.interests,
       internship_availability: true, verification_status: 'INSTITUTION_VERIFIED', consent_public_visibility: true,
+      institution_id: institution.id, department_id: departments[departmentKey].id,
     })
     const sss = {}
     for (const [key, lvl] of Object.entries(c.skills)) {
@@ -218,69 +277,69 @@ async function seed() {
   const applications = []
   for (const spec of appSpecs) {
     const candidate = studentRecords[spec.cand]
-    const app = await insert('applications', {
+    const app = await ensureRecord('applications', {
       opportunity_id: spec.opp, student_id: candidate.student.id, company_id: company.id, status: spec.status,
       applied_at: new Date(),
-    })
-    await insert('application_status_history', { application_id: app.id, to_status: spec.status, changed_by: recruiterUser.id })
+    }, ['opportunity_id', 'student_id'])
+    await ensureRecord('application_status_history', { application_id: app.id, to_status: spec.status, changed_by: recruiterUser.id }, ['application_id', 'to_status'])
     applications.push({ ...spec, app, candidate })
   }
 
   // --- Interviews ---
-  await insert('interviews', {
+  await ensureRecord('interviews', {
     company_id: company.id, application_id: applications[0].app.id, opportunity_id: backRole.id,
     student_id: applications[0].candidate.student.id, interviewer_id: recruiterUser.id,
     round_number: 1, round_name: 'Technical Round', scheduled_at: new Date(Date.now() + 86400000),
     mode: 'ONLINE', status: 'SCHEDULED',
-  })
-  await insert('interviews', {
+  }, ['company_id', 'application_id', 'round_number'])
+  await ensureRecord('interviews', {
     company_id: company.id, application_id: applications[6].app.id, opportunity_id: mlRole.id,
     student_id: applications[6].candidate.student.id, interviewer_id: recruiterUser.id,
     round_number: 1, round_name: 'Technical Round', scheduled_at: new Date(Date.now() + 2 * 86400000),
     mode: 'ONLINE', status: 'SCHEDULED',
-  })
+  }, ['company_id', 'application_id', 'round_number'])
 
   // --- Offer for selected Meera ---
   const offerApp = applications.find((a) => a.cand === 1)
-  const offer = await insert('offers', {
+  const offer = await ensureRecord('offers', {
     company_id: company.id, application_id: offerApp.app.id, opportunity_id: mlRole.id,
     student_id: offerApp.candidate.student.id, role_title: 'AI / ML Engineer', compensation: '₹14 LPA',
     offer_date: '2026-09-01', joining_date: '2026-12-01', status: 'SENT',
-  })
-  await insert('placement_outcomes', {
+  }, ['application_id'])
+  await ensureRecord('placement_outcomes', {
     offer_id: offer.id, application_id: offerApp.app.id, student_id: offerApp.candidate.student.id,
     company_id: company.id, joined: true, joined_at: '2026-12-01', role_title: 'AI / ML Engineer', compensation: '₹14 LPA',
-  })
+  }, ['application_id'])
 
   // --- Role requirements (skill demand) ---
-  const roleBack = await insert('role_requirements', {
+  const roleBack = await ensureRecord('role_requirements', {
     company_id: company.id, role_title: 'Backend Developer', description: 'Build and maintain resilient backend services.',
     years_experience_min: 0, years_experience_max: 2, education: 'Relevant degree', location: 'Bengaluru / Remote',
-  })
-  await insert('industry_skill_demands', { company_id: company.id, opportunity_id: backRole.id, skill_id: skillIds.Java, required_level: 'ADVANCED', priority: 'MANDATORY' })
-  await insert('industry_skill_demands', { company_id: company.id, opportunity_id: backRole.id, skill_id: skillIds['Spring Boot'], required_level: 'INTERMEDIATE', priority: 'MANDATORY' })
-  await insert('industry_skill_demands', { company_id: company.id, opportunity_id: backRole.id, skill_id: skillIds.SQL, required_level: 'INTERMEDIATE', priority: 'MANDATORY' })
-  await insert('industry_skill_demands', { company_id: company.id, opportunity_id: backRole.id, skill_id: skillIds.Docker, required_level: 'BASIC', priority: 'PREFERRED' })
-  await insert('industry_skill_demands', { company_id: company.id, opportunity_id: backRole.id, skill_id: skillIds.AWS, required_level: 'BASIC', priority: 'PREFERRED' })
+  }, ['company_id', 'role_title'])
+  await ensureRecord('industry_skill_demands', { company_id: company.id, opportunity_id: backRole.id, skill_id: skillIds.Java, required_level: 'ADVANCED', priority: 'MANDATORY' }, ['company_id', 'opportunity_id', 'skill_id'])
+  await ensureRecord('industry_skill_demands', { company_id: company.id, opportunity_id: backRole.id, skill_id: skillIds['Spring Boot'], required_level: 'INTERMEDIATE', priority: 'MANDATORY' }, ['company_id', 'opportunity_id', 'skill_id'])
+  await ensureRecord('industry_skill_demands', { company_id: company.id, opportunity_id: backRole.id, skill_id: skillIds.SQL, required_level: 'INTERMEDIATE', priority: 'MANDATORY' }, ['company_id', 'opportunity_id', 'skill_id'])
+  await ensureRecord('industry_skill_demands', { company_id: company.id, opportunity_id: backRole.id, skill_id: skillIds.Docker, required_level: 'BASIC', priority: 'PREFERRED' }, ['company_id', 'opportunity_id', 'skill_id'])
+  await ensureRecord('industry_skill_demands', { company_id: company.id, opportunity_id: backRole.id, skill_id: skillIds.AWS, required_level: 'BASIC', priority: 'PREFERRED' }, ['company_id', 'opportunity_id', 'skill_id'])
 
   // --- Collaborations ---
-  await insert('collaborations', {
+  await ensureRecord('collaborations', {
     company_id: company.id, title: 'Backend Engineering Roadmap Workshop', type: 'WORKSHOP',
     description: 'Hands-on workshop on modern backend development for final year students.',
     target_audience: 'Final year B.Tech CSE', location: 'Online', mode: 'ONLINE', status: 'PROPOSED',
     contact: 'academia@technova.com',
-  })
-  await insert('collaborations', {
+  }, ['company_id', 'title'])
+  await ensureRecord('collaborations', {
     company_id: company.id, title: 'Industry Guest Lecture on Skill Intelligence', type: 'GUEST_LECTURE',
     description: 'Guest lecture on how AI maps industry demand to student skill development.',
     target_audience: 'All students', status: 'PROPOSED',
-  })
+  }, ['company_id', 'title'])
 
   // --- Matching weights ---
-  await insert('matching_weights', {
+  await ensureRecord('matching_weights', {
     skill_compatibility: 35, skill_evidence: 20, assessment: 15, experience: 10,
     career_preference: 10, eligibility: 5, stated_preferences: 5,
-  })
+  }, ['skill_compatibility', 'skill_evidence'])
 
   console.log('Seeding complete.')
   await pool.end()
