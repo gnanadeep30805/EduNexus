@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import './funnel.css'
+import './auth.css'
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000/api'
 
@@ -10,6 +11,9 @@ const navItems = [
 ]
 
 function LoginScreen({ onLogin }) {
+  const [registering, setRegistering] = useState(false)
+  const [fullName, setFullName] = useState('')
+  const [companyName, setCompanyName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -20,9 +24,9 @@ function LoginScreen({ onLogin }) {
     setError('')
     setLoading(true)
     try {
-      const response = await fetch(`${API_URL}/auth/login`, {
+      const response = await fetch(`${API_URL}/auth/${registering ? 'register' : 'login'}`, {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ fullName, companyName, email, password }),
       })
       const result = await response.json()
       if (!response.ok || !result.success) throw new Error(result.error?.message || 'Unable to sign in')
@@ -35,7 +39,7 @@ function LoginScreen({ onLogin }) {
     }
   }
 
-  return <main className="auth-shell"><form className="auth-card" onSubmit={submit}><div className="brand auth-brand"><span className="brand-mark">E</span><span>EduNexus</span></div><p className="eyebrow">INDUSTRY WORKSPACE</p><h1>Welcome back</h1><p className="auth-copy">Sign in to manage opportunities, candidates, and your recruitment pipeline.</p><label>Email<input type="email" value={email} onChange={(event) => setEmail(event.target.value)} required autoComplete="email" /></label><label>Password<input type="password" value={password} onChange={(event) => setPassword(event.target.value)} required autoComplete="current-password" /></label>{error && <p className="form-error" role="alert">{error}</p>}<button className="primary-button auth-submit" disabled={loading}>{loading ? 'Signing in...' : 'Sign in'}</button></form></main>
+  return <main className="auth-shell"><form className="auth-card" onSubmit={submit}><div className="brand auth-brand"><span className="brand-mark">E</span><span>EduNexus</span></div><p className="eyebrow">INDUSTRY WORKSPACE</p><h1>{registering ? 'Create your account' : 'Welcome back'}</h1><p className="auth-copy">{registering ? 'Register your company workspace to start managing recruitment.' : 'Sign in to manage opportunities, candidates, and your recruitment pipeline.'}</p>{registering && <><label>Full name<input value={fullName} onChange={(event) => setFullName(event.target.value)} required autoComplete="name" /></label><label>Company name<input value={companyName} onChange={(event) => setCompanyName(event.target.value)} required autoComplete="organization" /></label></>}<label>Email<input type="email" value={email} onChange={(event) => setEmail(event.target.value)} required autoComplete="email" /></label><label>Password<input type="password" value={password} onChange={(event) => setPassword(event.target.value)} required minLength="8" autoComplete={registering ? 'new-password' : 'current-password'} /></label>{error && <p className="form-error" role="alert">{error}</p>}<button className="primary-button auth-submit" disabled={loading}>{loading ? 'Please wait...' : registering ? 'Create account' : 'Sign in'}</button><button type="button" className="text-button auth-toggle" onClick={() => { setRegistering(!registering); setError('') }}>{registering ? 'Already have an account? Sign in' : 'New to EduNexus? Create an industry account'}</button></form></main>
 }
 
 function App() {
