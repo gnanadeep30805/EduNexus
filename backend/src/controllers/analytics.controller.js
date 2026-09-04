@@ -5,10 +5,12 @@ export const getDashboard = asyncHandler(async (req, res) => {
   const data = await analyticsRepo.dashboard(req.user.companyId)
   const topSkills = await analyticsRepo.skillDemand(req.user.companyId)
   const skillGaps = await analyticsRepo.skillGaps(req.user.companyId)
+  const funnel = await analyticsRepo.funnel(req.user.companyId)
   success(res, {
     ...data,
     topRequiredSkills: topSkills.slice(0, 6),
     skillGaps: skillGaps.slice(0, 6),
+    funnel,
   }, 'Dashboard loaded')
 })
 

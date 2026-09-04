@@ -7,7 +7,7 @@ export const candidateRepo = {
     if (search) { params.push(`%${search}%`); conditions.push(`(s.first_name ILIKE $${params.length} OR s.last_name ILIKE $${params.length} OR s.bio ILIKE $${params.length})`) }
     if (location) { params.push(`%${location}%`); conditions.push(`s.location ILIKE $${params.length}`) }
     if (available !== undefined) { params.push(available === true || available === 'true'); conditions.push(`s.internship_availability = $${params.length}`) }
-    if (verified) { params.push('VERIFIED'); conditions.push(`s.verification_status = $${params.length}`) }
+    if (verified) { params.push(['VERIFIED', 'INSTITUTION_VERIFIED']); conditions.push(`s.verification_status = ANY($${params.length})`) }
     if (interests && interests.length) {
       params.push(interests)
       conditions.push('s.career_interests && $' + params.length)
@@ -25,7 +25,7 @@ export const candidateRepo = {
       `SELECT COUNT(*)::int AS total FROM students s ${whereSql}`,
       params,
     )
-    const total = countResult.rows[0].total
+    const [{ total }] = countResult.rows
 
     const offset = (page - 1) * pageSize
     params.push(pageSize, offset)

@@ -24,7 +24,10 @@ export const skillService = {
   async listSkills(search) {
     if (search) {
       const { rows } = await query(
-        'SELECT * FROM skills WHERE lower(name) ILIKE $1 ORDER BY name LIMIT 30',
+        `SELECT DISTINCT s.* FROM skills s
+         LEFT JOIN skill_aliases a ON a.skill_id = s.id
+         WHERE lower(s.name) ILIKE $1 OR lower(a.alias) ILIKE $1
+         ORDER BY s.name LIMIT 30`,
         [`%${search}%`],
       )
       return rows

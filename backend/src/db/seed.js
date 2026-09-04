@@ -64,6 +64,7 @@ async function seed() {
     Kubernetes: { name: 'Kubernetes', category: 'DevOps' },
     Tailwind: { name: 'Tailwind CSS', category: 'Frontend' },
     Typescript: { name: 'TypeScript', category: 'Programming Language' },
+    JavaScript: { name: 'JavaScript', category: 'Programming Language' },
     'Machine Learning': { name: 'Machine Learning', category: 'AI / ML' },
     Pandas: { name: 'Pandas', category: 'Data Science' },
     Spark: { name: 'Apache Spark', category: 'Data Engineering' },
@@ -73,8 +74,9 @@ async function seed() {
     const r = await insert('skills', s)
     skillIds[key] = r.id
   }
-  await insert('skill_aliases', { skill_id: skillIds.Java, alias: 'JS' })
-  await insert('skill_aliases', { skill_id: skillIds.Java, alias: 'Java 8' })
+  await insert('skill_aliases', { skill_id: skillIds.JavaScript, alias: 'JS' })
+  await insert('skill_aliases', { skill_id: skillIds.JavaScript, alias: 'Javascript' })
+  await insert('skill_aliases', { skill_id: skillIds.JavaScript, alias: 'Java Script' })
 
   // --- Opportunities ---
   const backRole = await insert('opportunities', {

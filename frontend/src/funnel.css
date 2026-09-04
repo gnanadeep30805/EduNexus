@@ -1,0 +1,7 @@
+.funnel-bars { align-items: end; display: flex; gap: 14px; height: 170px; justify-content: space-around; margin: 25px 0 7px; }
+.funnel-column { align-items: center; display: flex; flex: 1; flex-direction: column; height: 100%; justify-content: end; min-width: 0; }
+.funnel-column strong { color: var(--ink); font-size: 11px; margin-bottom: 6px; }
+.funnel-column span { background: var(--blue); border-radius: 5px 5px 2px 2px; display: block; max-width: 42px; min-height: 8px; width: 70%; }
+.funnel-column:nth-child(2n) span { background: #77a8be; }
+.funnel-column small { color: #8e9995; font-size: 8px; margin-top: 8px; overflow: hidden; text-overflow: ellipsis; text-transform: capitalize; white-space: nowrap; width: 100%; }
+.legend-note { color: #aab3af; margin-left: auto; }

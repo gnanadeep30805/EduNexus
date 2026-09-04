@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { requireAuth, requireCompany } from '../middleware/auth.js'
+import { requireAuth, requireCompany, requireRole, requireVerified } from '../middleware/auth.js'
 import { getDashboard, getAnalytics } from '../controllers/analytics.controller.js'
 import {
   getCompany, updateCompany,
@@ -42,24 +42,24 @@ router.put('/company', updateCompany)
 
 // Skills (shared taxonomy)
 router.get('/skills', listSkills)
-router.post('/skills', createSkill)
+router.post('/skills', requireVerified, requireRole('COMPANY_ADMIN', 'RECRUITER', 'HIRING_MANAGER'), createSkill)
 
 // Opportunities
 router.get('/opportunities', listOpportunities)
-router.post('/opportunities', createOpportunity)
+router.post('/opportunities', requireVerified, requireRole('COMPANY_ADMIN', 'RECRUITER', 'HIRING_MANAGER'), createOpportunity)
 router.get('/opportunities/:id', getOpportunity)
-router.put('/opportunities/:id', updateOpportunity)
-router.post('/opportunities/:id/publish', publishOpportunity)
-router.post('/opportunities/:id/pause', pauseOpportunity)
-router.post('/opportunities/:id/close', closeOpportunity)
-router.post('/opportunities/:id/submit', submitOpportunity)
+router.put('/opportunities/:id', requireVerified, requireRole('COMPANY_ADMIN', 'RECRUITER', 'HIRING_MANAGER'), updateOpportunity)
+router.post('/opportunities/:id/publish', requireVerified, requireRole('COMPANY_ADMIN', 'RECRUITER'), publishOpportunity)
+router.post('/opportunities/:id/pause', requireVerified, requireRole('COMPANY_ADMIN', 'RECRUITER'), pauseOpportunity)
+router.post('/opportunities/:id/close', requireVerified, requireRole('COMPANY_ADMIN', 'RECRUITER'), closeOpportunity)
+router.post('/opportunities/:id/submit', requireVerified, requireRole('COMPANY_ADMIN', 'RECRUITER'), submitOpportunity)
 
 // Matches
 router.get('/matches', listMatches)
-router.post('/opportunities/:id/matches/generate', generateForOpportunity)
+router.post('/opportunities/:id/matches/generate', requireVerified, requireRole('COMPANY_ADMIN', 'RECRUITER', 'HIRING_MANAGER'), generateForOpportunity)
 router.get('/opportunities/:id/matches', listMatchCandidates)
 router.get('/matches/:id', getMatch)
-router.post('/matches/:id/shortlist', shortlistFromMatch)
+router.post('/matches/:id/shortlist', requireVerified, requireRole('COMPANY_ADMIN', 'RECRUITER', 'HIRING_MANAGER'), shortlistFromMatch)
 
 // Candidates
 router.get('/candidates', searchCandidates)
@@ -72,26 +72,26 @@ router.patch('/applications/:id/status', updateApplicationStatus)
 
 // Recruitment pipeline
 router.get('/recruitment', getPipeline)
-router.post('/recruitment/:id/move', moveCandidate)
+router.post('/recruitment/:id/move', requireVerified, requireRole('COMPANY_ADMIN', 'RECRUITER', 'HIRING_MANAGER'), moveCandidate)
 
 // Interviews
 router.get('/interviews', listInterviews)
-router.post('/interviews', createInterview)
+router.post('/interviews', requireVerified, requireRole('COMPANY_ADMIN', 'RECRUITER', 'HIRING_MANAGER'), createInterview)
 router.get('/interviews/:id', getInterview)
-router.put('/interviews/:id', updateInterview)
-router.patch('/interviews/:id/status', updateInterviewStatus)
+router.put('/interviews/:id', requireVerified, requireRole('COMPANY_ADMIN', 'RECRUITER', 'HIRING_MANAGER'), updateInterview)
+router.patch('/interviews/:id/status', requireVerified, requireRole('COMPANY_ADMIN', 'RECRUITER', 'HIRING_MANAGER'), updateInterviewStatus)
 
 // Offers & hiring
 router.get('/offers', listOffers)
 router.get('/offers/:id', getOffer)
-router.post('/offers', createOffer)
-router.post('/offers/:id/hire', recordHiring)
+router.post('/offers', requireVerified, requireRole('COMPANY_ADMIN', 'RECRUITER'), createOffer)
+router.post('/offers/:id/hire', requireVerified, requireRole('COMPANY_ADMIN', 'RECRUITER'), recordHiring)
 
 // Collaborations
 router.get('/collaborations', listCollaborations)
-router.post('/collaborations', createCollaboration)
+router.post('/collaborations', requireVerified, requireRole('COMPANY_ADMIN', 'RECRUITER', 'HIRING_MANAGER', 'MENTOR'), createCollaboration)
 router.get('/collaborations/:id', getCollaboration)
-router.patch('/collaborations/:id/status', updateCollaborationStatus)
+router.patch('/collaborations/:id/status', requireVerified, requireRole('COMPANY_ADMIN', 'RECRUITER', 'HIRING_MANAGER'), updateCollaborationStatus)
 router.get('/collaborations/academia', listAcademiaCollaborations)
 
 // Recruiter profile & settings
