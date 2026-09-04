@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000/api'
 const sections = [
@@ -18,7 +18,7 @@ export default function AcademiaDashboard({ token, profile, onSignOut }) {
   const [error, setError] = useState('')
   const [search, setSearch] = useState('')
 
-  async function load(path) {
+  const load = useCallback(async (path) => {
     setLoading(true)
     setError('')
     try {
@@ -32,12 +32,12 @@ export default function AcademiaDashboard({ token, profile, onSignOut }) {
     } finally {
       setLoading(false)
     }
-  }
+  }, [token])
 
-  useEffect(() => { load('dashboard') }, [token])
+  useEffect(() => { load('dashboard') }, [load])
   useEffect(() => {
     if (section !== 'overview') load(section === 'collaborations' ? 'collaborations' : section)
-  }, [section])
+  }, [load, section])
 
   function signOut() {
     localStorage.removeItem('edunexus_token')

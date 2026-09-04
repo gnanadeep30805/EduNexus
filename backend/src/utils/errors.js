@@ -13,4 +13,5 @@ export const Errors = {
   notFound: (msg = 'Resource not found') => new AppError('NOT_FOUND', msg, 404),
   badRequest: (msg = 'Invalid request', details = []) => new AppError('VALIDATION_ERROR', msg, 400, details),
   conflict: (msg = 'Resource already exists') => new AppError('CONFLICT', msg, 409),
+  serviceUnavailable: (msg = 'Service temporarily unavailable') => new AppError('SERVICE_UNAVAILABLE', msg, 503),
 }

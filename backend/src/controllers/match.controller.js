@@ -5,6 +5,7 @@ import { generateMatches } from '../services/matching.service.js'
 import { candidateRepo } from '../repositories/candidate.repository.js'
 import { audit } from '../services/audit.service.js'
 import { applicationRepo } from '../repositories/application.repository.js'
+import { explainMatch } from '../services/gemini.service.js'
 
 export const generateForOpportunity = asyncHandler(async (req, res) => {
   const opp = (await query('SELECT * FROM opportunities WHERE id = $1', [req.params.id])).rows[0]
@@ -76,6 +77,16 @@ export const getMatch = asyncHandler(async (req, res) => {
     },
     application: apps.rows[0] || null,
   }, 'Match loaded')
+})
+
+export const generateMatchExplanation = asyncHandler(async (req, res) => {
+  const { rows } = await query('SELECT * FROM matches WHERE id = $1', [req.params.id])
+  const match = rows[0]
+  if (!match) throw Errors.notFound('Match not found')
+  if (String(match.company_id) !== String(req.user.companyId)) throw Errors.forbidden('Cannot access another organization\'s match')
+  const explanation = await explainMatch(match)
+  await audit(req.user.id, req.user.companyId, 'MATCH_AI_EXPLANATION', 'match', match.id)
+  success(res, { matchId: match.id, explanation, provider: 'gemini', model: process.env.GEMINI_MODEL || 'gemini-2.0-flash' }, 'AI explanation generated')
 })
 
 export const shortlistFromMatch = asyncHandler(async (req, res) => {

@@ -10,7 +10,7 @@ import {
 } from '../controllers/opportunity.controller.js'
 import { searchCandidates, getCandidate } from '../controllers/candidate.controller.js'
 import {
-  listMatches, getMatch, generateForOpportunity, listMatchCandidates, shortlistFromMatch,
+  listMatches, getMatch, generateForOpportunity, listMatchCandidates, shortlistFromMatch, generateMatchExplanation,
 } from '../controllers/match.controller.js'
 import { listApplications, getApplication, updateApplicationStatus } from '../controllers/application.controller.js'
 import { getPipeline, moveCandidate } from '../controllers/recruitment.controller.js'
@@ -59,6 +59,7 @@ router.get('/matches', listMatches)
 router.post('/opportunities/:id/matches/generate', requireVerified, requireRole('COMPANY_ADMIN', 'RECRUITER', 'HIRING_MANAGER'), generateForOpportunity)
 router.get('/opportunities/:id/matches', listMatchCandidates)
 router.get('/matches/:id', getMatch)
+router.post('/matches/:id/ai-explanation', generateMatchExplanation)
 router.post('/matches/:id/shortlist', requireVerified, requireRole('COMPANY_ADMIN', 'RECRUITER', 'HIRING_MANAGER'), shortlistFromMatch)
 
 // Candidates

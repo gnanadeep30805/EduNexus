@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import './student.css'
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000/api'
@@ -30,7 +30,7 @@ export default function StudentDashboard({ token, profile, onSignOut }) {
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
 
-  async function load() {
+  const load = useCallback(async () => {
     setLoading(true); setError('')
     try {
       const [dashboardResult, profileResult, skillsResult, gapsResult] = await Promise.all([
@@ -38,9 +38,9 @@ export default function StudentDashboard({ token, profile, onSignOut }) {
       ])
       setDashboard(dashboardResult); setStudentProfile(profileResult); setSkillsData(skillsResult); setGaps(gapsResult.gaps || [])
     } catch (loadError) { setError(loadError.message) } finally { setLoading(false) }
-  }
+  }, [token])
 
-  useEffect(() => { load() }, [token])
+  useEffect(() => { load() }, [load])
 
   async function addSkill(event) {
     event.preventDefault(); const form = new FormData(event.currentTarget)
@@ -108,14 +108,14 @@ function CareerExecutionView({ section, token, onSelect, onNotice, onError }) {
   const [selected, setSelected] = useState(null)
   const [loading, setLoading] = useState(true)
 
-  async function load() {
+  const load = useCallback(async () => {
     setLoading(true); setSelected(null)
     try {
       const path = section === 'opportunities' ? '/students/me/opportunities' : section === 'applications' ? '/students/me/applications' : section === 'internships' ? '/students/me/internships' : section === 'portfolio' || section === 'certifications' ? '/students/me/portfolio' : section === 'notifications' ? '/students/me/notifications' : '/students/me/profile'
       setData(await request(path, token))
     } catch (loadError) { onError(loadError.message) } finally { setLoading(false) }
-  }
-  useEffect(() => { load() }, [section, token])
+  }, [onError, section, token])
+  useEffect(() => { load() }, [load])
 
   async function act(path, options = {}) {
     try { await request(path, token, options); onNotice('Your career workspace is up to date'); await load() } catch (actionError) { onError(actionError.message) }
