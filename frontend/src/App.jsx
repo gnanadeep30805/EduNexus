@@ -12,10 +12,17 @@ const navItems = [
   ['Recruitment', '◈'], ['Interviews', '◷'], ['Collaboration', '◇'],
 ]
 
-function LoginScreen({ onLogin }) {
+const MODULES = {
+  student: { label: 'Student workspace', title: 'Build your skill passport', copy: 'Track skills, discover opportunities, and grow your placement readiness.', name: 'Institution name', signup: 'Create student account' },
+  industry: { label: 'Industry workspace', title: 'Manage your hiring workspace', copy: 'Discover candidates, create opportunities, and move recruitment forward.', name: 'Company name', signup: 'Create industry account' },
+  academia: { label: 'Academia workspace', title: 'Turn demand into learning action', copy: 'See industry demand, student readiness, and institutional skill gaps.', name: 'Institution name', signup: 'Create academia account' },
+}
+
+function LoginScreen({ onLogin, module }) {
+  const moduleConfig = MODULES[module]
   const [registering, setRegistering] = useState(false)
   const [fullName, setFullName] = useState('')
-  const [companyName, setCompanyName] = useState('')
+  const [organizationName, setOrganizationName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -28,7 +35,7 @@ function LoginScreen({ onLogin }) {
     try {
       const response = await fetch(`${API_URL}/auth/${registering ? 'register' : 'login'}`, {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ fullName, companyName, email, password }),
+        body: JSON.stringify({ module, fullName, organizationName, email, password }),
       })
       const result = await response.json()
       if (!response.ok || !result.success) throw new Error(result.error?.message || 'Unable to sign in')
@@ -41,10 +48,12 @@ function LoginScreen({ onLogin }) {
     }
   }
 
-  return <main className="auth-shell"><form className="auth-card" onSubmit={submit}><div className="brand auth-brand"><span className="brand-mark">E</span><span>EduNexus</span></div><p className="eyebrow">INDUSTRY WORKSPACE</p><h1>{registering ? 'Create your account' : 'Welcome back'}</h1><p className="auth-copy">{registering ? 'Register your company workspace to start managing recruitment.' : 'Sign in to manage opportunities, candidates, and your recruitment pipeline.'}</p>{registering && <><label>Full name<input value={fullName} onChange={(event) => setFullName(event.target.value)} required autoComplete="name" /></label><label>Company name<input value={companyName} onChange={(event) => setCompanyName(event.target.value)} required autoComplete="organization" /></label></>}<label>Email<input type="email" value={email} onChange={(event) => setEmail(event.target.value)} required autoComplete="email" /></label><label>Password<input type="password" value={password} onChange={(event) => setPassword(event.target.value)} required minLength="8" autoComplete={registering ? 'new-password' : 'current-password'} /></label>{error && <p className="form-error" role="alert">{error}</p>}<button className="primary-button auth-submit" disabled={loading}>{loading ? 'Please wait...' : registering ? 'Create account' : 'Sign in'}</button><button type="button" className="text-button auth-toggle" onClick={() => { setRegistering(!registering); setError('') }}>{registering ? 'Already have an account? Sign in' : 'New to EduNexus? Create an industry account'}</button></form></main>
+  return <main className="auth-shell"><form className="auth-card" onSubmit={submit}><div className="brand auth-brand"><span className="brand-mark">E</span><span>EduNexus</span></div><p className="eyebrow">{moduleConfig.label.toUpperCase()}</p><h1>{registering ? 'Create your account' : moduleConfig.title}</h1><p className="auth-copy">{registering ? `Register for the ${moduleConfig.label.toLowerCase()}.` : moduleConfig.copy}</p>{registering && <><label>Full name<input value={fullName} onChange={(event) => setFullName(event.target.value)} required autoComplete="name" /></label>{module !== 'student' && <label>{moduleConfig.name}<input value={organizationName} onChange={(event) => setOrganizationName(event.target.value)} required autoComplete="organization" /></label>}{module === 'student' && <label>{moduleConfig.name}<input value={organizationName} onChange={(event) => setOrganizationName(event.target.value)} autoComplete="organization" /></label>}</>}<label>Email<input type="email" value={email} onChange={(event) => setEmail(event.target.value)} required autoComplete="email" /></label><label>Password<input type="password" value={password} onChange={(event) => setPassword(event.target.value)} required minLength="8" autoComplete={registering ? 'new-password' : 'current-password'} /></label>{error && <p className="form-error" role="alert">{error}</p>}<button className="primary-button auth-submit" disabled={loading}>{loading ? 'Please wait...' : registering ? moduleConfig.signup : 'Sign in'}</button><button type="button" className="text-button auth-toggle" onClick={() => { setRegistering(!registering); setError('') }}>{registering ? 'Already have an account? Sign in' : `New to ${moduleConfig.label}? Create an account`}</button><div className="module-links"><a href="/student/login">Student</a><a href="/industry/login">Industry</a><a href="/academia/login">Academia</a></div></form></main>
 }
 
 function App() {
+  const module = window.location.pathname.split('/')[1] || 'industry'
+  const selectedModule = MODULES[module] ? module : 'industry'
   const [token, setToken] = useState(() => localStorage.getItem('edunexus_token'))
   const [dashboard, setDashboard] = useState(null)
   const [profile, setProfile] = useState(null)
@@ -59,7 +68,9 @@ function App() {
         const result = await response.json()
         if (!response.ok || !result.success) throw new Error(result.error?.message || 'Unable to load profile')
         setProfile(result.data)
-        const endpoint = ['ACADEMIA', 'ADMIN'].includes(result.data.user.role) ? 'academia/dashboard' : 'industry/dashboard'
+        const endpoint = ['ACADEMIA', 'ADMIN'].includes(result.data.user.role)
+          ? 'academia/dashboard'
+          : result.data.user.role === 'STUDENT' ? 'students/me/dashboard' : 'industry/dashboard'
         const dashboardResponse = await fetch(`${API_URL}/${endpoint}`, { headers: { Authorization: `Bearer ${token}` } })
         const dashboardResult = await dashboardResponse.json()
         if (!dashboardResponse.ok || !dashboardResult.success) throw new Error(dashboardResult.error?.message || 'Unable to load dashboard')
@@ -77,7 +88,7 @@ function App() {
     setDashboard(null)
   }
 
-  if (!token) return <LoginScreen onLogin={(value) => { setLoading(true); setToken(value) }} />
+  if (!token) return <LoginScreen module={selectedModule} onLogin={(value) => { setLoading(true); setToken(value) }} />
   if (loading && !dashboard) return <main className="state-shell"><div className="state-card"><span className="state-spinner" /><h1>Loading your workspace</h1><p>Fetching live recruitment data.</p></div></main>
   if (error && !dashboard) return <main className="state-shell"><div className="state-card"><h1>Dashboard unavailable</h1><p>{error}</p><button className="primary-button" onClick={() => setToken(token)}>Try again</button><button className="text-button" onClick={signOut}>Sign out</button></div></main>
   if (profile && ['ACADEMIA', 'ADMIN'].includes(profile.user?.role)) return <AcademiaDashboard token={token} profile={profile} onSignOut={signOut} />

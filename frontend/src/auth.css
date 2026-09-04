@@ -1,1 +1,2 @@
 .auth-toggle { display: block; margin: 14px auto 0; }
+.module-links { border-top: 1px solid var(--line); display: flex; gap: 16px; justify-content: center; margin-top: 22px; padding-top: 17px; }.module-links a { color: var(--muted); font-size: 10px; text-decoration: none; }.module-links a:hover { color: var(--blue); }

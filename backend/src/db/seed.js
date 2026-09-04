@@ -8,7 +8,13 @@ async function seed() {
 
   async function findOrCreateUser({ full_name, email, role }) {
     const existing = await query('SELECT * FROM users WHERE lower(email) = lower($1)', [email])
-    if (existing.rows[0]) return existing.rows[0]
+    if (existing.rows[0]) {
+      if (existing.rows[0].role !== role) {
+        const updated = await query('UPDATE users SET role = $1 WHERE id = $2 RETURNING *', [role, existing.rows[0].id])
+        return updated.rows[0]
+      }
+      return existing.rows[0]
+    }
     return insert('users', { full_name, email, password_hash: passwordHash, role })
   }
 

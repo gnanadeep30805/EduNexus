@@ -20,7 +20,13 @@ export function signToken(user, companyUser) {
 }
 
 export const authService = {
-  async register({ fullName, email, password, companyName }) {
+  moduleMatches(module, role) {
+    if (module === 'industry') return role === 'RECRUITER'
+    if (module === 'academia') return ['ACADEMIA', 'ADMIN'].includes(role)
+    return role === 'STUDENT'
+  },
+
+  async register({ module, fullName, email, password, organizationName }) {
     const client = await getClient()
     try {
       await client.query('BEGIN')
@@ -28,29 +34,34 @@ export const authService = {
       if (existing.rows[0]) throw Errors.conflict('An account with this email already exists')
 
       const passwordHash = await bcrypt.hash(password, 12)
+      const role = module === 'industry' ? 'RECRUITER' : module === 'academia' ? 'ACADEMIA' : 'STUDENT'
       const userResult = await client.query(
         `INSERT INTO users (full_name, email, password_hash, role)
-         VALUES ($1, lower($2), $3, 'RECRUITER') RETURNING *`,
-        [fullName, email, passwordHash],
+         VALUES ($1, lower($2), $3, $4) RETURNING *`,
+        [fullName, email, passwordHash, role],
       )
       const user = userResult.rows[0]
-      const companyResult = await client.query(
-        `INSERT INTO companies (name, verification_status, created_by)
-         VALUES ($1, 'PENDING', $2) RETURNING *`,
-        [companyName, user.id],
-      )
-      const company = companyResult.rows[0]
-      const membershipResult = await client.query(
-        `INSERT INTO company_users (company_id, user_id, role, designation)
-         VALUES ($1, $2, 'COMPANY_ADMIN', 'Company administrator') RETURNING *`,
-        [company.id, user.id],
-      )
+      let membership = null
+      let company = null
+      let institution = null
+      if (module === 'industry') {
+        const result = await client.query(`INSERT INTO companies (name, verification_status, created_by) VALUES ($1, 'PENDING', $2) RETURNING *`, [organizationName, user.id])
+        company = result.rows[0]
+        membership = (await client.query(`INSERT INTO company_users (company_id, user_id, role, designation) VALUES ($1, $2, 'COMPANY_ADMIN', 'Company administrator') RETURNING *`, [company.id, user.id])).rows[0]
+      } else if (module === 'academia') {
+        const result = await client.query(`INSERT INTO institutions (name, verification_status) VALUES ($1, 'PENDING') RETURNING *`, [organizationName])
+        institution = result.rows[0]
+        await client.query(`INSERT INTO institution_users (institution_id, user_id, role, is_active) VALUES ($1, $2, 'INSTITUTION_ADMIN', TRUE)`, [institution.id, user.id])
+      } else {
+        await client.query(`INSERT INTO students (user_id, first_name, last_name, institution_name, verification_status, consent_public_visibility) VALUES ($1, $2, '', $3, 'PENDING', FALSE)`, [user.id, fullName, organizationName || null])
+      }
       await client.query('COMMIT')
       return {
-        token: signToken(user, membershipResult.rows[0]),
+        token: signToken(user, membership),
         user: { id: user.id, fullName: user.full_name, email: user.email, role: user.role },
-        membership: { companyId: company.id, companyRole: 'COMPANY_ADMIN' },
-        company: { id: company.id, name: company.name, verificationStatus: company.verification_status },
+        membership: membership ? { companyId: company.id, companyRole: membership.role } : null,
+        institution: institution ? { institutionId: institution.id, institutionRole: 'INSTITUTION_ADMIN', name: institution.name, verificationStatus: institution.verification_status } : null,
+        company: company ? { id: company.id, name: company.name, verificationStatus: company.verification_status } : null,
       }
     } catch (error) {
       await client.query('ROLLBACK')
